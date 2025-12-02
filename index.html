@@ -5,36 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
-    <title>MENU SLIDER AND MODAL</title>
+    <title>HANGMAN</title>
 </head>
 <body>
+<svg width="300" height="300" xmlns="http://www.w3.org/2000/svg">
+<!--stand-->    
+<line x1="10" y1="20" x2="150" y2="20" style="stroke: black; stroke-width: 4; " />
+<line x1="140" y1="20" x2="140" y2="40" style="stroke: black; stroke-width: 4; " />
+<line x1="20" y1="20" x2="20" y2="250" style="stroke: black; stroke-width: 5; " />
+<line x1="10" y1="250" x2="140" y2="250" style="stroke: black; stroke-width: 10; "/>
+<!--head-->
+<circle cx="140" cy="60" r="20" stroke="black" strokewidth="3" fill="white" />
+<!--neck-->
+<line x1="140" y1="80" x2="140" y2="100" style="stroke: black; stroke-width: 2; "/>
 
-<header>
-    <nav class="navbar">
-        <div class="logo">
-        <h1>MODAL AND HAMBURGER MENU</h1>
-        </div>
-        <ul class="nav-menu" id="menu-content">
-            <li><a href="home">Home</a></li>
-            <li><a href="about">About</a></li>
-            <li><a href="services">Services</a></li>
-            <li><a href="contact">Contact</a></li>
-        </ul>
-        <div class="menu-toggle" id="menubutton">☰</i></div>
-    </nav>
-</header>
+<!--torso-->
+<line x1="120" y1="100" x2="160" y2="100" style="stroke: black; stroke-width: 2; "/>
+<line x1="120" y1="100" x2="120" y2="150" style="stroke: black; stroke-width: 2; "/>
+<line x1="160" y1="100" x2="160" y2="150" style="stroke: black; stroke-width: 2; "/>
+<line x1="120" y1="150" x2="160" y2="150" style="stroke: black; stroke-width: 2; "/>
 
-<button id="open-modal-btn">Open Modal</button>
+<!--left hand-->
+<line x1="160" y1="100" x2="180" y2="130" style="stroke: black; stroke-width: 2; "/>
+<line x1="160" y1="110" x2="170" y2="120" style="stroke: black; stroke-width: 2; "/>
+<line x1="180" y1="130" x2="170" y2="120" style="stroke: black; stroke-width: 2; "/>
 
-<div id="modal">
-    <div class="modal-content">
-        <span class="close-btn" id="close-btn">&times;</span>
-        <h2>Modal Title</h2>
-        <p>Some content here…</p>
-    </div>
-</div>
+<!--right hand-->
+<line x1="120" y1="100" x2="100" y2="130" style="stroke: black; stroke-width: 2; "/>
+<line x1="120" y1="110" x2="110" y2="120" style="stroke: black; stroke-width: 2; "/>
+<line x1="100" y1="130" x2="110" y2="120" style="stroke: black; stroke-width: 2; "/>
 
+<!-- legs -->
+ 
+<!-- right leg -->
+<line x1="130" y1="150" x2="130" y2="220" style="stroke: black; stroke-width: 2; "/>
 
+<!-- left leg -->
+<line x1="150" y1="150" x2="150" y2="220" style="stroke: black; stroke-width: 2; "/>
+
+</svg>
 
 <script src="script.js"></script>
 </body>
