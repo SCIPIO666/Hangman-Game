@@ -69,8 +69,6 @@ width: 100%;
 .category-card {
     padding: 10px 15px;
     border: none;
-    background-color: gray;
-    color: black;
     cursor: pointer;
     border-radius: 4px;
    transition: transform 0.3s ease-in-out,letter-spacing .2s ease-in-out,
@@ -239,5 +237,5 @@ text-align: center;
 .inactive {
     background-color: #ccc;     
     color: white;
-    cursor: not-allowed;
+    cursor: not-allowed ;
 }
