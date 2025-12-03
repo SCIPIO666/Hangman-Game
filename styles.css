@@ -12,13 +12,6 @@ html {
     font-size: 16px; /* Base font size */
 }
 
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    background-color: #f4f4f4;
-    font-size: 1rem; /* Equivalent to 16px */
-    line-height: 1.6; /* For readability */
-}
 
 h1 {
     font-size: 2.5rem; /* 2.5 * 16px = 40px */
@@ -37,7 +30,29 @@ h3 {
 p {
     font-size: 1rem; /* 1 * 16px = 16px */
 }
-
+body {
+background-color: #f4f4f4;
+color: #333;
+font-size: 16px;
+line-height: 1.5;
+}
+.container {
+    width: 8ovw;
+max-width: 900px;
+height: 80vh;
+margin: 1em auto;
+background-color: #fff;
+padding: 10px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+display: flex;
+justify-content: center;
+align-items: center;
+flex-direction: row;
+flex-wrap: wrap;
+}
+.container h1,.container p {
+width: 100%;
+}
  svg{
     border: dotted 2px  grey;
 
@@ -46,3 +61,61 @@ p {
     stroke-width: 2;
     fill: white;
  }
+ .hangman-board {
+display: flex;
+justify-content: space-between;
+margin-bottom: 20px;
+width: 30%;
+}
+.hangman-figure {
+flex: 1;
+display: inline-block;
+position: relative;
+width: 300px;
+height: 300px;
+
+}
+.word-display{
+    width: 45%;
+    padding: 15px;
+    margin: 10px;
+}
+.word {
+display: flex;
+justify-content: center;
+align-items: center;
+height: 90%;
+width: 80%;
+margin: 10px auto;
+margin-bottom: 20px;
+
+}
+.keyboard {
+display: flex;
+flex-wrap: wrap;
+justify-content: center;
+width: 90%;
+padding: 10px;
+margin: 5px auto;
+}
+.key {
+margin: 5px;
+padding: 10px 15px;
+border: none;
+background-color: #f4f4f4;
+cursor: pointer;
+border-radius: 4px;
+transition: background-color 0.2s ease;
+}
+.key:hover {
+background-color: #ddd;
+}
+.letter, .placeholder {
+margin: 0 5px;
+font-size: 2em;
+font-weight: bold;
+display: inline-block;
+width: 30px;
+border-bottom: 2px solid 333;
+text-align: center;
+}

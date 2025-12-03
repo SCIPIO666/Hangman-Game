@@ -8,15 +8,62 @@
     <title>HANGMAN</title>
 </head>
 <body>
-<svg id="hangman" width="300" height="300"  style="border: 1px solid #ccc;">
-  <!-- hang stand -->
-<line x1="10" y1="20" x2="150" y2="20" style="stroke: black; stroke-width: 4; " />
-<line x1="140" y1="20" x2="140" y2="40" style="stroke: black; stroke-width: 4; " />
-<line x1="20" y1="20" x2="20" y2="250" style="stroke: black; stroke-width: 5; " />
-<line x1="10" y1="250" x2="140" y2="250" style="stroke: black; stroke-width: 10; "/>
+    <div class="container">
+    <h1>HANGMAN GAME</h1>
+    <p>Guess the word by selecting letters. You have limited attempts before the hangman</p>
+    <div class="hangman-board">
+        <svg id="hangman" class="hangman-figure" width="300" height="300"  style="border: 1px solid #ccc;">
+            <!-- hang stand -->
+            <line x1="10" y1="20" x2="150" y2="20" style="stroke: black; stroke-width: 4; " />
+            <line x1="20" y1="70" x2="60" y2="20" style="stroke: black; stroke-width: 4; " />
+            <line x1="140" y1="20" x2="140" y2="40" style="stroke: black; stroke-width: 4; " />
+            <line x1="20" y1="20" x2="20" y2="250" style="stroke: black; stroke-width: 5; " />
+            <line x1="10" y1="250" x2="140" y2="250" style="stroke: black; stroke-width: 10; "/>
 
 
-</svg>
+        </svg>
+    </div>
+    <div class="word-display" id="wordDisplay">
+        <!-- Word to guess will be displayed here -->
+         <div class="keyboard">
+            <div class="key">A</div>
+            <div class="key">B</div> 
+            <div class="key">C</div>
+            <div class="key">D</div>
+            <div class="key">E</div>
+            <div class="key">F</div>
+            <div class="key">G</div>
+            <div class="key">H</div>
+            <div class="key">I</div>
+            <div class="key">J</div>
+            <div class="key">K</div>
+            <div class="key">L</div>
+            <div class="key">M</div>
+            <div class="key">N</div>
+            <div class="key">O</div>
+            <div class="key">P</div>
+            <div class="key">Q</div>    
+            <div class="key">R</div>
+            <div class="key">S</div>    
+            <div class="key">T</div>
+            <div class="key">U</div>
+            <div class="key">V</div>
+            <div class="key">W</div>
+            <div class="key">X</div>
+            <div class="key">Y</div>
+            <div class="key">Z</div>       
+        </div>
+             <div class="word">
+            <div class="letter">H</div>
+            <div class="letter">A</div> 
+            <div class="letter">N</div> 
+            <div class="letter">G</div>
+            <div class="letter">M</div>
+            <div class="letter">A</div>
+            <div class="letter">N</div>
+            
+         </div>    
+    </div>
 
 <script src="script.js"></script>
 </body>
