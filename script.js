@@ -38,7 +38,7 @@ class HangmanFigure{
             cx: 140,
             cy: 60,
             r: 20,
-            style: "stroke: black; stroke-width: 2;"
+            style: "stroke: black; stroke-width: 2; fill: white;"
         }
         this.setAttributes(circle,attributes);
         this.parentElem.appendChild(circle);
@@ -84,6 +84,6 @@ class HangmanFigure{
 
 const figure = new HangmanFigure(svgContainer,SVG_NS);
 
-figure.drawCompleteFigure();
+//figure.drawCompleteFigure();
 
 

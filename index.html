@@ -9,62 +9,89 @@
 </head>
 <body>
     <div class="container">
-    <h1>HANGMAN GAME</h1>
-    <p>Guess the word by selecting letters. You have limited attempts before the hangman</p>
-    <div class="hangman-board">
-        <svg id="hangman" class="hangman-figure" width="300" height="300"  style="border: 1px solid #ccc;">
-            <!-- hang stand -->
-            <line x1="10" y1="20" x2="150" y2="20" style="stroke: black; stroke-width: 4; " />
-            <line x1="20" y1="70" x2="60" y2="20" style="stroke: black; stroke-width: 4; " />
-            <line x1="140" y1="20" x2="140" y2="40" style="stroke: black; stroke-width: 4; " />
-            <line x1="20" y1="20" x2="20" y2="250" style="stroke: black; stroke-width: 5; " />
-            <line x1="10" y1="250" x2="140" y2="250" style="stroke: black; stroke-width: 10; "/>
-
-
-        </svg>
-    </div>
-    <div class="word-display" id="wordDisplay">
-        <!-- Word to guess will be displayed here -->
-         <div class="keyboard">
-            <div class="key">A</div>
-            <div class="key">B</div> 
-            <div class="key">C</div>
-            <div class="key">D</div>
-            <div class="key">E</div>
-            <div class="key">F</div>
-            <div class="key">G</div>
-            <div class="key">H</div>
-            <div class="key">I</div>
-            <div class="key">J</div>
-            <div class="key">K</div>
-            <div class="key">L</div>
-            <div class="key">M</div>
-            <div class="key">N</div>
-            <div class="key">O</div>
-            <div class="key">P</div>
-            <div class="key">Q</div>    
-            <div class="key">R</div>
-            <div class="key">S</div>    
-            <div class="key">T</div>
-            <div class="key">U</div>
-            <div class="key">V</div>
-            <div class="key">W</div>
-            <div class="key">X</div>
-            <div class="key">Y</div>
-            <div class="key">Z</div>       
+        <h1>HANGMAN GAME</h1>
+        <div class="categories">
+            <div class="category-card animals" data-category="animals">
+                <h2>Animals</h2>
+            </div>
+            <div class="category-card fruits" data-category="fruits">
+                <h2>Fruits</h2>
+            </div>
+            <div class="category-card countries" data-category="countries">
+                <h2>Countries</h2>
+            </div>
+            <div class="category-card movies" data-category="countries">
+                <h2>Movies</h2>
+            </div>
         </div>
-             <div class="word">
-            <div class="letter">H</div>
-            <div class="letter">A</div> 
-            <div class="letter">N</div> 
-            <div class="letter">G</div>
-            <div class="letter">M</div>
-            <div class="letter">A</div>
-            <div class="letter">N</div>
-            
-         </div>    
-    </div>
+        <div class="game-status">
+            <div id="message">you win</div>
+            <div id="remainingAttempts">Remaining Attempts: 6</div> 
+        </div>
+        <div class="hangman-board">
+            <svg id="hangman" class="hangman-figure" width="300" height="300"  style="border: 1px solid #ccc;">
+                <!-- hang stand -->
+                <line x1="10" y1="20" x2="150" y2="20" style="stroke: black; stroke-width: 4; " />
+                <line x1="20" y1="70" x2="60" y2="20" style="stroke: black; stroke-width: 4; " />
+                <line x1="140" y1="20" x2="140" y2="40" style="stroke: black; stroke-width: 4; " />
+                <line x1="20" y1="20" x2="20" y2="250" style="stroke: black; stroke-width: 5; " />
+                <line x1="10" y1="250" x2="140" y2="250" style="stroke: black; stroke-width: 10; "/>
 
+
+            </svg>
+        </div>
+
+
+        <div class="word-display" id="wordDisplay">
+            <!-- Word to guess will be displayed here -->
+       <div class="keyboard">
+            <div class="keyboard-row row-top">
+                <div class="key" data-letter="q">Q</div>
+                <div class="key" data-letter="w">W</div> 
+                <div class="key" data-letter="e">E</div>
+                <div class="key" data-letter="r">R</div>
+                <div class="key" data-letter="t">T</div>
+                <div class="key" data-letter="y">Y</div>
+                <div class="key" data-letter="u">U</div>
+                <div class="key" data-letter="i">I</div>
+                <div class="key" data-letter="o">O</div>
+                <div class="key" data-letter="p">P</div>
+            </div>
+            
+            <div class="keyboard-row row-home">
+                <div class="key" data-letter="a">A</div>
+                <div class="key" data-letter="s">S</div>
+                <div class="key" data-letter="d">D</div>
+                <div class="key" data-letter="f">F</div>
+                <div class="key" data-letter="g">G</div>
+                <div class="key" data-letter="h">H</div>
+                <div class="key" data-letter="j">J</div>
+                <div class="key" data-letter="k">K</div>
+                <div class="key" data-letter="l">L</div>
+            </div>
+            
+            <div class="keyboard-row row-bottom">
+                <div class="key" data-letter="z">Z</div>
+                <div class="key" data-letter="x">X</div>
+                <div class="key" data-letter="c">C</div>
+                <div class="key" data-letter="v">V</div>
+                <div class="key" data-letter="b">B</div>
+                <div class="key" data-letter="n">N</div>
+                <div class="key" data-letter="m">M</div>
+            </div>
+        </div>
+        <div class="word">
+                <div class="letter">H</div>
+                <div class="letter">A</div> 
+                <div class="letter">N</div> 
+                <div class="letter">G</div>
+                <div class="letter">M</div>
+                <div class="letter">A</div>
+                <div class="letter">N</div>
+                
+            </div>    
+        </div>
+    </div>
 <script src="script.js"></script>
 </body>
 </html>
