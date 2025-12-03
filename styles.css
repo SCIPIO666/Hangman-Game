@@ -38,4 +38,11 @@ p {
     font-size: 1rem; /* 1 * 16px = 16px */
 }
 
- 
+ svg{
+    border: dotted 2px  grey;
+
+ }
+ circle{
+    stroke-width: 2;
+    fill: white;
+ }

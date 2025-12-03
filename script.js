@@ -1,5 +1,6 @@
-const svgParent=document.querySelector("#hangman"); // Assumes an <svg id="hangman"> element exists
-const svgNamespace = "http://www.w3.org/2000/svg";
+
+const SVG_NS = "http://www.w3.org/2000/svg";
+const svgContainer = document.getElementById("hangman");
 
 class HangmanFigure{
     constructor(parentElem, nameSpace){
@@ -10,23 +11,21 @@ class HangmanFigure{
     drawLine(x1, y1, x2, y2) {
         let line = document.createElementNS(this.nameSpace, "line");
         const attributes = {
-            // FIX: Must use standard SVG line attributes: x1, y1, x2, y2
             x1: x1, 
             y1: y1,
             x2: x2,
             y2: y2,
+            style: "stroke: black; stroke-width: 2; "
         }
         this.setAttributes(line, attributes);
         this.parentElem.appendChild(line);
     }
         
-    setAttributes(elem, object){
-        for (key in object){
-            elem.setAttribute(key, object[key]);
+    setAttributes(elem, attriburesObject){
+        for (let attribute in attriburesObject){
+            elem.setAttribute(attribute, attriburesObject[attribute]);
         }
-        // FIX: Set style attributes outside the loop
-        elem.setAttribute("stroke-width", "2");
-        elem.setAttribute("stroke", "red");
+
     }
 
     drawNeck(){
@@ -39,9 +38,9 @@ class HangmanFigure{
             cx: 140,
             cy: 60,
             r: 20,
-            fill: "white",
+            style: "stroke: black; stroke-width: 2;"
         }
-        this.setAttributes(circle, attributes);
+        this.setAttributes(circle,attributes);
         this.parentElem.appendChild(circle);
     }
 
@@ -71,14 +70,20 @@ class HangmanFigure{
     drawLeftLeg(){
         this.drawLine(130, 150, 130, 220);
     }
+    drawCompleteFigure(){
+        this.drawHead();
+        this.drawNeck();
+        this.drawTorso();
+        this.drawLeftHand();
+        this.drawRightHand();
+        this.drawLeftLeg();
+        this.drawRightLeg();
+
+    }
 }
 
-const figure = new HangmanFigure(svgParent, svgNamespace);
+const figure = new HangmanFigure(svgContainer,SVG_NS);
 
-figure.drawHead();
-figure.drawNeck();
-figure.drawTorso();
-figure.drawRightHand();
-figure.drawLeftHand();
-figure.drawRightLeg();
-figure.drawLeftLeg();
+figure.drawCompleteFigure();
+
+
