@@ -2,6 +2,18 @@
 const SVG_NS = "http://www.w3.org/2000/svg";
 const svgContainer = document.getElementById("hangman");
 
+const gameStatusMessage = document.getElementById("message");
+const remainingAttemptsElem = document.querySelector(".remainingAttempts-number");
+const gameStatus={
+    currentWordCategory: "",
+    remainingAttempts: 6,
+    clickedLetters: [],
+    currentClickedLetter: "",
+    currentWord: "",
+    currentClickedLetterIsCorrect: false,
+    gameOver: false,
+    currentMeassage: "Type the word",
+}
 class HangmanFigure{
     constructor(parentElem, nameSpace){
         this.parentElem = parentElem;
@@ -81,9 +93,22 @@ class HangmanFigure{
 
     }
 }
-
+class gameMessage{
+    constructor(messageElem, attemptsElem, gameStatus){
+        this.messageElem = messageElem;
+        this.attemptsElem = attemptsElem;
+        this.gameStatus = gameStatus;
+    }
+}
+class game{
+    constructor(gameStatus, gameMessage, hangmanFigure){
+        this.gameStatus = gameStatus;
+        this.gameMessage = gameMessage;
+        this.hangmanFigure = hangmanFigure;
+    }
+}
 const figure = new HangmanFigure(svgContainer,SVG_NS);
 
-//figure.drawCompleteFigure();
+figure.drawCompleteFigure();
 
 

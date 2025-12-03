@@ -124,15 +124,32 @@ width: 100%;
     transform: scale(1.1);   
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
+.game-status {
+    justify-content: center;
+    width: 100%;
+    margin: 5px auto;
+
+}
 
 #message {
     margin-right: 20px;
-    color: green;
+    color: black;
     padding: 15px;
+    border-right: 2px solid #03A9F4;
+    padding: 5px;
+    border: solid 2px  grey;
+    background-color: white;
+    border-radius: 5px;
+
 }
 #remainingAttempts {
-    color: red; 
+    color: green; 
     padding: 15px;
+}
+.remainingAttempts-number {
+    font-weight: bold;
+    font-size: 1.2em;
+    color: tomato;
 }
  .hangman-board {
 display: flex;
@@ -147,6 +164,7 @@ display: inline-block;
 position: relative;
 width: 300px;
 height: 300px;
+    border: solid 2px #03A9F4;
 
 
 }
@@ -204,4 +222,22 @@ display: inline-block;
 width: 30px;
 border-bottom: 2px solid 333;
 text-align: center;
+}
+.letter{
+    border-bottom: solid 4px #2196F3;
+}
+.spacer {
+    width: 30px;
+    margin: 0 5px;
+font-size: 2em;
+font-weight: bold;
+display: inline-block;
+width: 30px;
+border-bottom: 2px solid 333;
+text-align: center;
+}
+.inactive {
+    background-color: #ccc;     
+    color: white;
+    cursor: not-allowed;
 }
