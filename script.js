@@ -16,11 +16,16 @@ const gameStatus={
 }
 
 const wordCategories={
-    animals: ['TIGER', 'ELEPHANT', 'GIRAFFE', 'CHIMPANZEE', 'RHINOCEROS', 'ZEBRA', 'PENGUIN', 'DOLPHIN', 'KANGAROO', 'SQUIRREL'],
-    fruits:[ 'APPLE', 'BANANA', 'ORANGE', 'GRAPEFRUIT', 'PINEAPPLE', 'WATERMELON', 'MANGO', 'STRAWBERRY', 'KIWI', 'BLUEBERRY'],
-    countries: ['CANADA', 'BRAZIL', 'GERMANY', 'AUSTRALIA', 'JAPAN', 'EGYPT', 'MEXICO', 'ITALY', 'INDIA', 'RUSSIA'],
-    movies: ['TITANIC', 'INCEPTION', 'AVATAR', 'PARASITE', 'JAWS', 'GLADIATOR', 'PULPFICTION', 'INTERSTELLAR', 'FROZEN', 'MEMENTO'],
+    animals: ['TIGER', 'ELEPHANT', 'GIRAFFE', 'CHIMPANZEE', 'RHINOCEROS', 
+        'ZEBRA', 'PENGUIN', 'DOLPHIN', 'KANGAROO', 'SQUIRREL'],
+    fruits:[ 'APPLE', 'BANANA', 'ORANGE', 'GRAPEFRUIT', 'PINEAPPLE',
+         'WATERMELON', 'MANGO', 'STRAWBERRY', 'KIWI', 'BLUEBERRY'],
+    countries: ['CANADA', 'BRAZIL', 'GERMANY', 'AUSTRALIA', 'JAPAN',
+         'EGYPT', 'MEXICO', 'ITALY', 'INDIA', 'RUSSIA'],
+    movies: ['TITANIC', 'INCEPTION', 'AVATAR', 'PARASITE', 'JAWS', 
+        'GLADIATOR', 'PULPFICTION', 'INTERSTELLAR', 'FROZEN', 'MEMENTO'],
 }
+
 class HangmanFigure{
     constructor(parentElem, nameSpace){
         this.parentElem = parentElem;
@@ -109,8 +114,7 @@ class HangmanFigure{
                 <line x1="140" y1="20" x2="140" y2="40" style="stroke: black; stroke-width: 4; " />
                 <line x1="20" y1="20" x2="20" y2="250" style="stroke: black; stroke-width: 5; " />
                 <line x1="10" y1="250" x2="140" y2="250" style="stroke: black; stroke-width: 10; "/>`;
-    
-}
+    }
 }
 class GameMessage{
     constructor(messageElem, attemptsElem, gameStatus){
@@ -128,13 +132,14 @@ class GameMessage{
 }
 
 class Game{
-    constructor(gameStatus, gameMessageController, hangmanFigure){
+    constructor(gameStatus, gameMessageController, hangmanFigure,words){//gameStatusObject,GameMesssage,hangmanClass,words object
         this.gameStatus = gameStatus;
         this.gameMessageController = gameMessageController;
         this.hangmanFigure = hangmanFigure;
+        this.words=words;
     }
     restoreDefaults(){
-       const modal=document.getElementById("notification-modal");
+       const modal=document.querySelector(".notification-modal");
         modal.style.display="none";
         const remainingAttemptsDisplay= document.querySelector(".remainingAttempts-number");
         remainingAttemptsDisplay.textContent= 6;
@@ -144,8 +149,12 @@ class Game{
     resetCategorySelection(){
         const categoryCards = document.querySelectorAll(".category-card");
         categoryCards.forEach(card => {
-            card.classList.remove("selected");
-            card.classList.remove("inactive");
+            if(card.classList.contains("inactive")){
+                card.classList.remove("inactive");
+            }
+            if(card.classList.contains("selected")){
+                card.classList.remove("selected");
+            }
         });
     }
 
@@ -167,7 +176,6 @@ class Game{
         this.hangmanFigure.resetFigure();
         this.gameMessageController.startGameMessage();
     }
-    }
 
     startGame(){
         this.gameMessageController.startGameMessage();
@@ -188,7 +196,9 @@ class Game{
     }
 }
 
-const figure = new HangmanFigure(svgContainer,SVG_NS);
 
+const figure = new HangmanFigure(svgContainer,SVG_NS);
+const messageController=new GameMessage(gameStatusMessage,remainingAttemptsElem,gameStatus);
+const game=new Game(gameStatus,messageController,figure,wordCategories);
 
 
