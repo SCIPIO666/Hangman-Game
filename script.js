@@ -1,10 +1,9 @@
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const svgContainer = document.getElementById("hangman");
-
-
 const gameStatusMessage = document.getElementById("message");
 const remainingAttemptsElem = document.querySelector(".remainingAttempts-number");
+
 const gameStatus={
     currentWordCategory: "",
     remainingAttempts: 6,
@@ -14,6 +13,13 @@ const gameStatus={
     currentClickedLetterIsCorrect: false,
     gameOver: false,
     currentMeassage: "Type the word",
+}
+
+const wordCategories={
+    animals: ['TIGER', 'ELEPHANT', 'GIRAFFE', 'CHIMPANZEE', 'RHINOCEROS', 'ZEBRA', 'PENGUIN', 'DOLPHIN', 'KANGAROO', 'SQUIRREL'],
+    fruits:[ 'APPLE', 'BANANA', 'ORANGE', 'GRAPEFRUIT', 'PINEAPPLE', 'WATERMELON', 'MANGO', 'STRAWBERRY', 'KIWI', 'BLUEBERRY'],
+    countries: ['CANADA', 'BRAZIL', 'GERMANY', 'AUSTRALIA', 'JAPAN', 'EGYPT', 'MEXICO', 'ITALY', 'INDIA', 'RUSSIA'],
+    movies: ['TITANIC', 'INCEPTION', 'AVATAR', 'PARASITE', 'JAWS', 'GLADIATOR', 'PULPFICTION', 'INTERSTELLAR', 'FROZEN', 'MEMENTO'],
 }
 class HangmanFigure{
     constructor(parentElem, nameSpace){
@@ -93,8 +99,20 @@ class HangmanFigure{
         this.drawRightLeg();
 
     }
+    resetFigure(){
+        const figureParts = this.parentElem.querySelectorAll("line, circle");           
+        figureParts.forEach(part => part.remove());
+        const hangamanContainer=document.querySelector(".hangman-figure");
+        hangamanContainer.innerHTML = ` 
+                <line x1="10" y1="20" x2="150" y2="20" style="stroke: black; stroke-width: 4; " />
+                <line x1="20" y1="70" x2="60" y2="20" style="stroke: black; stroke-width: 4; " />
+                <line x1="140" y1="20" x2="140" y2="40" style="stroke: black; stroke-width: 4; " />
+                <line x1="20" y1="20" x2="20" y2="250" style="stroke: black; stroke-width: 5; " />
+                <line x1="10" y1="250" x2="140" y2="250" style="stroke: black; stroke-width: 10; "/>`;
+    
 }
-class gameMessage{
+}
+class GameMessage{
     constructor(messageElem, attemptsElem, gameStatus){
         this.messageElem = messageElem;
         this.attemptsElem = attemptsElem;
@@ -104,31 +122,37 @@ class gameMessage{
     startGameMessage(){
 
     }
+    animateMessage(){
+
+    }
 }
 
-class game{
+class Game{
     constructor(gameStatus, gameMessageController, hangmanFigure){
         this.gameStatus = gameStatus;
         this.gameMessageController = gameMessageController;
         this.hangmanFigure = hangmanFigure;
     }
-    restoreDefualts(){
+    restoreDefaults(){
        const modal=document.getElementById("notification-modal");
         modal.style.display="none";
         const remainingAttemptsDisplay= document.querySelector(".remainingAttempts-number");
         remainingAttemptsDisplay.textContent= 6;
-        this.displayDefaultWord();
-        resetCategorySelection();
+
     }
 
     resetCategorySelection(){
-
+        const categoryCards = document.querySelectorAll(".category-card");
+        categoryCards.forEach(card => {
+            card.classList.remove("selected");
+            card.classList.remove("inactive");
+        });
     }
 
     displayDefaultWord(){
 
     }    
-    resetGameStatus(){
+    resetGame(){
         this.gameStatus.currentWordCategory = "";
         this.gameStatus.remainingAttempts = 6;  
         this.gameStatus.currentWordCategory= "";
@@ -137,11 +161,16 @@ class game{
         this.gameStatus.currentWord= "";
         this.gameStatus.currentClickedLetterIsCorrect= false;
         this.gameStatus.gameOver= false;
-        this.restoreDefualts();
+        this.restoreDefaults();
+        this.displayDefaultWord();
+        this.resetCategorySelection();
+        this.hangmanFigure.resetFigure();
+        this.gameMessageController.startGameMessage();
     }
+    }
+
     startGame(){
-        this.gameMessage.messageElem.textContent = this.gameStatus.currentMeassage;
-        this.gameMessage.attemptsElem.textContent = this.gameStatus.remainingAttempts;
+        this.gameMessageController.startGameMessage();
     }
     
     endGame(){
@@ -159,7 +188,7 @@ class game{
     }
 }
 
-// const figure = new HangmanFigure(svgContainer,SVG_NS);
-// figure.drawCompleteFigure();
+const figure = new HangmanFigure(svgContainer,SVG_NS);
+
 
 
