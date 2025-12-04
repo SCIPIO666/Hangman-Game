@@ -48,6 +48,7 @@ flex-direction: row;
 flex-wrap: wrap;
 justify-content: center;
 align-items: center;
+gap: 10px;
 
 }
 .container h1{
@@ -65,41 +66,6 @@ width: 100%;
     justify-content: center;
     margin-bottom: 20px;
     gap: 10px;
-}
-.category-card {
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-   transition: transform 0.3s ease-in-out,letter-spacing .2s ease-in-out,
-   box-shadow .2s ease-in-out, color .2s ease-in-out;
-}
-.animals {
-    background: linear-gradient(135deg, #4CAF50, #8BC34A);
-    transition: transform 0.3s ease-in-out,letter-spacing .2s ease-in-out,
-    box-shadow .2s ease-in-out, color .2s ease-in-out; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
-}
-
-.fruits {
-    background: linear-gradient(135deg, #FF9800, #FFC107);
-    transition: transform 0.3s ease-in-out,letter-spacing .2s ease-in-out,
-    box-shadow .2s ease-in-out, color .2s ease-in-out;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.countries {
-    background: linear-gradient(135deg, #03A9F4, #2196F3);
-    transition: transform 0.3s ease-in-out,letter-spacing .2s ease-in-out,
-    box-shadow .2s ease-in-out, color .2s ease-in-out;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.movies {
-    background: linear-gradient(135deg, #673AB7, #9C27B0);
-    transition: transform 0.3s ease-in-out,letter-spacing .2s ease-in-out,
-    box-shadow .2s ease-in-out, color .2s ease-in-out;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 .category-card h2 {
     margin: 0;
@@ -121,6 +87,60 @@ width: 100%;
  {
     transform: scale(1.1);   
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.animals {
+    background: linear-gradient(135deg, #4CAF50, #8BC34A);
+    transition: transform 0.3s ease-in-out,letter-spacing .2s ease-in-out,
+    box-shadow .2s ease-in-out, color .2s ease-in-out; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+        padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.fruits {
+    background: linear-gradient(135deg, #FF9800, #FFC107);
+    transition: transform 0.3s ease-in-out,letter-spacing .2s ease-in-out,
+    box-shadow .2s ease-in-out, color .2s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.countries {
+    background: linear-gradient(135deg, #03A9F4, #2196F3);
+    transition: transform 0.3s ease-in-out,letter-spacing .2s ease-in-out,
+    box-shadow .2s ease-in-out, color .2s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.movies {
+    background: linear-gradient(135deg, #673AB7, #9C27B0);
+    transition: transform 0.3s ease-in-out,letter-spacing .2s ease-in-out,
+    box-shadow .2s ease-in-out, color .2s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+.inactive {
+    background-color: #ccc;     
+    color: white;
+    cursor: not-allowed ;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    pointer-events: none;
+
 }
 .game-status {
     justify-content: center;
@@ -152,7 +172,7 @@ width: 100%;
  .hangman-board {
 display: flex;
 justify-content: center;
-margin-bottom: 20px auto;
+margin: 0 20px 20px  10px;
 width: 30%;
 height: 70%;
 }
@@ -193,6 +213,8 @@ margin: 5px auto;
     width: 100%;
     display: flex;
     flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
 }
 .row-home,.row-bottom {
 justify-content: center;
@@ -234,11 +256,8 @@ width: 30px;
 border-bottom: 2px solid 333;
 text-align: center;
 }
-.inactive {
-    background-color: #ccc;     
-    color: white;
-    cursor: not-allowed ;
-}
+
+
 .notification-modal {
     position: fixed;
     top: 100px;
@@ -251,10 +270,9 @@ text-align: center;
     box-shadow: 0 20px 15px rgba(0, 0, 0, 0.3);
     font-size: 1.2em;
     z-index: 1000;
-    display: block; /* Hidden by default */
+    display: none; /* Hidden by default */
     width: 40vw;
     height: 50vh ;
-    display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: row;
@@ -276,8 +294,18 @@ text-align: center;
     padding: 10px;
     height: 85%;
     width: 90%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
 
 }
+.notification-content h2,.notification-content p {
+    margin-bottom: 20px;
+    width: 100%;
+    padding: 10px;
+    font-size: 2em;
+}   
 .play-again-btn{
     margin: 5px auto 10px auto;
     padding: 10px;
@@ -297,3 +325,10 @@ text-align: center;
     color: greenyellow;
     letter-spacing: 10p;
 }       
+
+.hidden {
+    display: none;
+}
+.show {
+    display: block;
+}

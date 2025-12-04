@@ -2,6 +2,7 @@
 const SVG_NS = "http://www.w3.org/2000/svg";
 const svgContainer = document.getElementById("hangman");
 
+
 const gameStatusMessage = document.getElementById("message");
 const remainingAttemptsElem = document.querySelector(".remainingAttempts-number");
 const gameStatus={
@@ -98,17 +99,67 @@ class gameMessage{
         this.messageElem = messageElem;
         this.attemptsElem = attemptsElem;
         this.gameStatus = gameStatus;
+
+    }
+    startGameMessage(){
+
     }
 }
+
 class game{
-    constructor(gameStatus, gameMessage, hangmanFigure){
+    constructor(gameStatus, gameMessageController, hangmanFigure){
         this.gameStatus = gameStatus;
-        this.gameMessage = gameMessage;
+        this.gameMessageController = gameMessageController;
         this.hangmanFigure = hangmanFigure;
     }
-}
-const figure = new HangmanFigure(svgContainer,SVG_NS);
+    restoreDefualts(){
+       const modal=document.getElementById("notification-modal");
+        modal.style.display="none";
+        const remainingAttemptsDisplay= document.querySelector(".remainingAttempts-number");
+        remainingAttemptsDisplay.textContent= 6;
+        this.displayDefaultWord();
+        resetCategorySelection();
+    }
 
-figure.drawCompleteFigure();
+    resetCategorySelection(){
+
+    }
+
+    displayDefaultWord(){
+
+    }    
+    resetGameStatus(){
+        this.gameStatus.currentWordCategory = "";
+        this.gameStatus.remainingAttempts = 6;  
+        this.gameStatus.currentWordCategory= "";
+        this.gameStatus.clickedLetters= [];
+        this.gameStatus.currentClickedLetter= "";
+        this.gameStatus.currentWord= "";
+        this.gameStatus.currentClickedLetterIsCorrect= false;
+        this.gameStatus.gameOver= false;
+        this.restoreDefualts();
+    }
+    startGame(){
+        this.gameMessage.messageElem.textContent = this.gameStatus.currentMeassage;
+        this.gameMessage.attemptsElem.textContent = this.gameStatus.remainingAttempts;
+    }
+    
+    endGame(){
+        this.gameStatus.gameOver = true;
+    }
+    generatePlaceholderDashes(){
+
+    }
+    fillWord(){
+
+    }
+
+    updateRemainingAttempts(){
+
+    }
+}
+
+// const figure = new HangmanFigure(svgContainer,SVG_NS);
+// figure.drawCompleteFigure();
 
 
