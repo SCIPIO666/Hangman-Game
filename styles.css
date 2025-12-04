@@ -239,3 +239,61 @@ text-align: center;
     color: white;
     cursor: not-allowed ;
 }
+.notification-modal {
+    position: fixed;
+    top: 100px;
+    left: 60%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 20px 15px rgba(0, 0, 0, 0.3);
+    font-size: 1.2em;
+    z-index: 1000;
+    display: block; /* Hidden by default */
+    width: 40vw;
+    height: 50vh ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.close-btn{
+    position: absolute;
+    top: 0;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+.notification-content {
+    text-align: center;
+    margin: 30px auto 5px autos;
+    padding: 10px;
+    height: 85%;
+    width: 90%;
+
+}
+.play-again-btn{
+    margin: 5px auto 10px auto;
+    padding: 10px;
+    background-color: #2196F3;
+    border: none;
+    color: #fff;
+    font-size: 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    height: 10%;
+    transition: transform 0.2s ease, background-color 0.2s ease,color 0.2s ease,letter-spacing .2s ease-in-out;
+}
+.close-btn:hover,
+.play-again-btn:hover {
+    background-color: gray;
+    transform: scale(1.05);
+    color: greenyellow;
+    letter-spacing: 10p;
+}       
