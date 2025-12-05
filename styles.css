@@ -332,3 +332,40 @@ text-align: center;
 .show {
     display: block;
 }
+
+#message-element{
+  background: linear-gradient(135deg, #151616, #07070775);
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 13px 20px rgba(0, 0, 0, 0.2);
+    padding: 10px 15px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1.5em;
+    color: white;
+    text-transform: uppercase;
+    cursor: none;
+}
+.hide{
+    transform: translateX(-300%);
+    position: absolute;
+    right: 100%;
+}
+.animation{
+    transition: transform .3s ease-in-out,position .3s ease-in-out;
+    animation: message;
+}
+
+@keyframes message {
+    from{
+    transform: translateX(-300%);
+    position: absolute;
+    right: 100%;
+    }
+    to{
+        transform: translateX(300%);
+        position: absolute;
+    right: -100%;
+
+    }
+}

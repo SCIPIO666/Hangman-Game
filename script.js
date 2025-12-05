@@ -12,7 +12,7 @@ const gameStatus={
     currentWord: "",
     currentClickedLetterIsCorrect: false,
     gameOver: false,
-    currentMeassage: "Type the word",
+    currentMessage: "Type the word",
 }
 
 const wordCategories={
@@ -23,7 +23,7 @@ const wordCategories={
     countries: ['CANADA', 'BRAZIL', 'GERMANY', 'AUSTRALIA', 'JAPAN',
          'EGYPT', 'MEXICO', 'ITALY', 'INDIA', 'RUSSIA'],
     movies: ['TITANIC', 'INCEPTION', 'AVATAR', 'PARASITE', 'JAWS', 
-        'GLADIATOR', 'PULPFICTION', 'INTERSTELLAR', 'FROZEN', 'MEMENTO'],
+        'GLADIATOR', 'PULP FICTION', 'INTERSTELLAR', 'FROZEN', 'MEMENTO'],
 }
 
 class HangmanFigure{
@@ -45,9 +45,9 @@ class HangmanFigure{
         this.parentElem.appendChild(line);
     }
         
-    setAttributes(elem, attriburesObject){
-        for (let attribute in attriburesObject){
-            elem.setAttribute(attribute, attriburesObject[attribute]);
+    setAttributes(elem, attributesObject){
+        for (let attribute in attributesObject){
+            elem.setAttribute(attribute, attributesObject[attribute]);
         }
 
     }
@@ -107,8 +107,8 @@ class HangmanFigure{
     resetFigure(){
         const figureParts = this.parentElem.querySelectorAll("line, circle");           
         figureParts.forEach(part => part.remove());
-        const hangamanContainer=document.querySelector(".hangman-figure");
-        hangamanContainer.innerHTML = ` 
+        const hangmanContainer=document.querySelector(".hangman-figure");
+        hangmanContainer.innerHTML = ` 
                 <line x1="10" y1="20" x2="150" y2="20" style="stroke: black; stroke-width: 4; " />
                 <line x1="20" y1="70" x2="60" y2="20" style="stroke: black; stroke-width: 4; " />
                 <line x1="140" y1="20" x2="140" y2="40" style="stroke: black; stroke-width: 4; " />
@@ -123,16 +123,32 @@ class GameMessage{
         this.gameStatus = gameStatus;
 
     }
+    displayMessage(message){
+        this.messageElem.textContent=message;
+        this.animateMessage();
+    }
     startGameMessage(){
-
+        this.messageElem.textContent="PREDICT THE RIGHT WORD LETTERS";
+        this.animateMessage();
     }
     animateMessage(){
-
+        if(this.messageElem.classList.contains("hide")){
+            this.messageElem.classList.remove("hide");
+        }
+        this.messageElem.classList.add("animation");
+    }
+    endAnimateMessage(){
+        if(this.messageElem.classList.contains("animation")){
+            this.messageElem.classList.remove("animation");
+        }
+        if(!this.messageElem.classList.contains("hide")){
+            this.messageElem.classList.add("hide");
+        }   
     }
 }
 
 class Game{
-    constructor(gameStatus, gameMessageController, hangmanFigure,words){//gameStatusObject,GameMesssage,hangmanClass,words object
+    constructor(gameStatus, gameMessageController, hangmanFigure,words){//gameStatusObject,GameMessage,hangmanClass,words object
         this.gameStatus = gameStatus;
         this.gameMessageController = gameMessageController;
         this.hangmanFigure = hangmanFigure;
