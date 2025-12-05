@@ -13,6 +13,7 @@ const gameStatus={
     currentClickedLetterIsCorrect: false,
     gameOver: false,
     currentMessage: "Type the word",
+    figurePartsDrawn: 0,
 }
 
 const wordCategories={
@@ -197,13 +198,26 @@ class Game{
     endGame(){
         this.gameStatus.gameOver = true;
     }
+
     generatePlaceholderDashes(){
 
     }
-    fillWord(){
+    acceptLetter(){
 
     }
 
+    drawNextFigurePart(){
+
+    }
+
+    rejectLetter(){
+
+    }
+
+    fillWord(){
+
+    }
+    
     updateRemainingAttempts(){
 
     }
