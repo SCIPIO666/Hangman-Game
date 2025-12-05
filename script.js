@@ -190,7 +190,9 @@ class Game{
         this.hangmanFigure.resetFigure();
         this.gameMessageController.startGameMessage();
     }
-
+    loadWordCategory(){
+        const loadWordCategory
+    }
     startGame(){
         this.gameMessageController.startGameMessage();
     }
