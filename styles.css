@@ -335,7 +335,6 @@ text-align: center;
 
 #message-element{
   background: linear-gradient(135deg, #151616, #07070775);
-    transition: transform 0.3s ease-in-out;
     box-shadow: 0 13px 20px rgba(0, 0, 0, 0.2);
     padding: 10px 15px;
     border: none;
@@ -345,27 +344,48 @@ text-align: center;
     color: white;
     text-transform: uppercase;
     cursor: none;
-}
-.hide{
-    transform: translateX(-300%);
-    position: absolute;
-    right: 100%;
-}
-.animation{
-    transition: transform .3s ease-in-out,position .3s ease-in-out;
-    animation: message;
-}
+      position: absolute;
+    right: -100%; /* Start off-screen to the right */
+    transform: translateX(0); 
+    opacity: 0; 
+    z-index: 1000;
+} 
 
-@keyframes message {
-    from{
-    transform: translateX(-300%);
-    position: absolute;
-    right: 100%;
-    }
-    to{
-        transform: translateX(300%);
-        position: absolute;
+
+.hide {
+    opacity: 0;
     right: -100%;
+}
 
+.slide-in-out {
+    transition: all 0.6s ease-in-out; 
+    animation: slide-message 4s forwards; 
+}
+
+@keyframes slide-message {
+    0% {
+        /* Start: Off-screen right */
+        right: 70%;
+        opacity: 0;
+    }
+
+    /* staying the same */
+    10% {
+        right: 60%; 
+        transform: translateX(15%); 
+        opacity: 1;
+    }
+    90% {
+        right: 60%;
+        transform: translateX(15%);
+        opacity: 1;
+    }
+    /* staying the same */
+
+
+    100% {
+        /* Slide Out: Move back off-screen to the right */
+        right: 70%;
+        opacity: 0;
     }
 }

@@ -1,7 +1,7 @@
 
 const SVG_NS = "http://www.w3.org/2000/svg";
 const svgContainer = document.getElementById("hangman");
-const gameStatusMessage = document.getElementById("message");
+const gameStatusMessage = document.getElementById("message-element");
 const remainingAttemptsElem = document.querySelector(".remainingAttempts-number");
 
 const gameStatus={
@@ -117,33 +117,30 @@ class HangmanFigure{
     }
 }
 class GameMessage{
-    constructor(messageElem, attemptsElem, gameStatus){
+    constructor(messageElem){
         this.messageElem = messageElem;
-        this.attemptsElem = attemptsElem;
         this.gameStatus = gameStatus;
+    }
 
-    }
     displayMessage(message){
-        this.messageElem.textContent=message;
+        this.messageElem.textContent = message;
         this.animateMessage();
     }
+
     startGameMessage(){
-        this.messageElem.textContent="PREDICT THE RIGHT WORD LETTERS";
+        this.messageElem.textContent = "PREDICT THE LETTERS";
         this.animateMessage();
     }
+
     animateMessage(){
-        if(this.messageElem.classList.contains("hide")){
-            this.messageElem.classList.remove("hide");
-        }
-        this.messageElem.classList.add("animation");
+        this.messageElem.classList.remove("hide");
+        this.messageElem.classList.remove("slide-in-out");
+        this.messageElem.classList.add("slide-in-out");
     }
+
     endAnimateMessage(){
-        if(this.messageElem.classList.contains("animation")){
-            this.messageElem.classList.remove("animation");
-        }
-        if(!this.messageElem.classList.contains("hide")){
-            this.messageElem.classList.add("hide");
-        }   
+        this.messageElem.classList.remove("slide-in-out");
+        this.messageElem.classList.add("hide"); 
     }
 }
 
@@ -214,7 +211,8 @@ class Game{
 
 
 const figure = new HangmanFigure(svgContainer,SVG_NS);
-const messageController=new GameMessage(gameStatusMessage,remainingAttemptsElem,gameStatus);
+const messageController=new GameMessage(gameStatusMessage);
 const game=new Game(gameStatus,messageController,figure,wordCategories);
+game.startGame();
 
 
