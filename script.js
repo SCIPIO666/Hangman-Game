@@ -5,9 +5,10 @@ const gameStatusMessage = document.getElementById("message-element");
 const remainingAttemptsElem = document.querySelector(".remainingAttempts-number");
 
 const gameStatus={
-    currentWordCategory: "",
     remainingAttempts: 6,
+    currentWordCategory: "",
     currentWord: "",
+    previosWords: [],
     clickedLetters: [],
     currentClickedLetter: "",
     currentClickedLetterIsCorrect: false,
@@ -224,24 +225,27 @@ class Game{
     displayDefaultWord(){
 
     }    
-    resetGame(){
+    resetGame() {
+        // Restore all properties of gameStatus to their default values
+        this.gameStatus.remainingAttempts = 6;
         this.gameStatus.currentWordCategory = "";
-        this.gameStatus.remainingAttempts = 6;  
-        this.gameStatus.currentWordCategory= "";
-        this.gameStatus.clickedLetters= [];
-        this.gameStatus.currentClickedLetter= "";
-        this.gameStatus.currentWord= "";
-        this.gameStatus.currentClickedLetterIsCorrect= false;
-        this.gameStatus.gameOver= false;
-        this.restoreDefaults();
-        this.displayDefaultWord();
-        this.resetCategorySelection();
+        this.gameStatus.currentWord = "";
+        this.gameStatus.clickedLetters = [];
+        this.gameStatus.currentClickedLetter = "";
+        this.gameStatus.currentClickedLetterIsCorrect = false;
+        this.gameStatus.currentLetterOccupiesMultiplePositions = false; 
+        this.gameStatus.gameOver = false;
+        this.gameStatus.gameWon = false; 
+        this.gameStatus.readyForNextWord = true;
+        this.gameStatus.currentMessage = ""; 
+        this.gameStatus.figurePartsDrawn = 0; 
+
         this.hangmanFigure.resetFigure();
         this.gameMessageController.startGameMessage();
-    }
-
+}
     startGame(){
         this.gameMessageController.startGameMessage();
+        this.loadNextWord();
     }
 
     loadNextWord(){
