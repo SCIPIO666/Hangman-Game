@@ -1,4 +1,4 @@
-
+//global vairables and constants
 const SVG_NS = "http://www.w3.org/2000/svg";
 const svgContainer = document.getElementById("hangman");
 const gameStatusMessage = document.getElementById("message-element");
@@ -7,14 +7,63 @@ const remainingAttemptsElem = document.querySelector(".remainingAttempts-number"
 const gameStatus={
     currentWordCategory: "",
     remainingAttempts: 6,
+    currentWord: "",
     clickedLetters: [],
     currentClickedLetter: "",
-    currentWord: "",
     currentClickedLetterIsCorrect: false,
+    currentLetterOccupiesMultiplePositions: false,
     gameOver: false,
-    currentMessage: "Type the word",
+    gameWon: false,
+    readyForNextWord: true,
+    currentMessage: "",
     figurePartsDrawn: 0,
+
+};
+
+// Word Category Selection
+const wordCategoryButtons=document.querySelectorAll(".category-card");
+
+function updateWordCategory(buttons){
+    buttons.forEach(button=>{
+        if(!button.classList.contains("selected")){
+            button.classList.add("inactive");
+        }
+    }); 
+     
 }
+
+wordCategoryButtons.forEach(button=>{
+    button.addEventListener("click",()=>{
+       // if(button.classList.contains("inactive") ||)return;
+        if(button.classList.contains("selected"))return;
+        if(button.classList.contains("inactive") && !game.gameStatus.currentWordCategory==="" && gameStatus.readyForNextWord=== false) return;
+
+        if(!button.classList.contains("selected") && !button.classList.contains("inactive")
+            && game.gameStatus.currentWordCategory==="" && gameStatus.readyForNextWord=== true){
+                    button.classList.add("selected");
+                    gameStatus.currentWordCategory=button.dataset.category;
+                    updateWordCategory(wordCategoryButtons);
+        }
+        if(button.classList.contains("inactive") && !game.gameStatus.currentWordCategory==="" && gameStatus.readyForNextWord=== true){
+
+                wordCategoryButtons.forEach(btn=>{
+                    if(btn.classList.contains("selected")){
+                        btn.classList.remove("selected");
+                    }
+                    if(btn.classList.contains("inactive")){
+                        btn.classList.remove("inactive");
+                    }
+                });
+
+            button.classList.add("selected");
+            gameStatus.currentWordCategory=button.dataset.category;
+            updateWordCategory(wordCategoryButtons);
+        }
+    });
+});
+
+
+
 
 const wordCategories={
     animals: ['TIGER', 'ELEPHANT', 'GIRAFFE', 'CHIMPANZEE', 'RHINOCEROS', 
@@ -190,15 +239,19 @@ class Game{
         this.hangmanFigure.resetFigure();
         this.gameMessageController.startGameMessage();
     }
-    loadWordCategory(){
-        const loadWordCategory
-    }
+
     startGame(){
         this.gameMessageController.startGameMessage();
     }
-    
+
+    loadNextWord(){
+
+    }
+    checkIfLetterOccupiesMultiplePositions(){
+
+    }
     endGame(){
-        this.gameStatus.gameOver = true;
+
     }
 
     generatePlaceholderDashes(){
