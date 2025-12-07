@@ -1,3 +1,5 @@
+
+
 //global vairables and constants
 const SVG_NS = "http://www.w3.org/2000/svg";
 const svgContainer = document.getElementById("hangman");
@@ -8,7 +10,6 @@ const gameStatus={
     remainingAttempts: 6,
     currentWordCategory: "",
     currentWord: "",
-    previosWords: [],
     clickedLetters: [],
     currentClickedLetter: "",
     currentClickedLetterIsCorrect: false,
@@ -32,39 +33,6 @@ function updateWordCategory(buttons){
     }); 
      
 }
-
-wordCategoryButtons.forEach(button=>{
-    button.addEventListener("click",()=>{
-       // if(button.classList.contains("inactive") ||)return;
-        if(button.classList.contains("selected"))return;
-        if(button.classList.contains("inactive") && !game.gameStatus.currentWordCategory==="" && gameStatus.readyForNextWord=== false) return;
-
-        if(!button.classList.contains("selected") && !button.classList.contains("inactive")
-            && game.gameStatus.currentWordCategory==="" && gameStatus.readyForNextWord=== true){
-                    button.classList.add("selected");
-                    gameStatus.currentWordCategory=button.dataset.category;
-                    updateWordCategory(wordCategoryButtons);
-        }
-        if(button.classList.contains("inactive") && !game.gameStatus.currentWordCategory==="" && gameStatus.readyForNextWord=== true){
-
-                wordCategoryButtons.forEach(btn=>{
-                    if(btn.classList.contains("selected")){
-                        btn.classList.remove("selected");
-                    }
-                    if(btn.classList.contains("inactive")){
-                        btn.classList.remove("inactive");
-                    }
-                });
-
-            button.classList.add("selected");
-            gameStatus.currentWordCategory=button.dataset.category;
-            updateWordCategory(wordCategoryButtons);
-        }
-    });
-});
-
-
-
 
 const wordCategories={
     animals: ['TIGER', 'ELEPHANT', 'GIRAFFE', 'CHIMPANZEE', 'RHINOCEROS', 
@@ -179,7 +147,7 @@ class GameMessage{
     }
 
     startGameMessage(){
-        this.messageElem.textContent = "PREDICT THE LETTERS";
+        this.messageElem.textContent = "Select Word Category To Start Playing";
         this.animateMessage();
     }
 
@@ -222,9 +190,7 @@ class Game{
         });
     }
 
-    displayDefaultWord(){
-
-    }    
+   
     resetGame() {
         // Restore all properties of gameStatus to their default values
         this.gameStatus.remainingAttempts = 6;
@@ -242,23 +208,127 @@ class Game{
 
         this.hangmanFigure.resetFigure();
         this.gameMessageController.startGameMessage();
+        this. resetCategorySelection();
+        this.restoreDefaults();
 }
     startGame(){
         this.gameMessageController.startGameMessage();
         this.loadNextWord();
     }
-
-    loadNextWord(){
+    displayDefaultWord(){
 
     }
+    removeAllDashes(){
+        const dashes=document.querySelectorAll(".letter");
+        const spaces=document.querySelectorAll(".spacer");
+
+        if(dashes){
+            dashes.forEach(dash=>{
+                dash.remove();
+            });
+        }
+        if(spaces){
+            spaces.forEach(space=>{
+                space.remove();
+            });
+        }
+        console.log("dashes removed");
+    }
+    createDash(string){
+        const dash=createElement("div");
+        const parentElem=document.querySelector(".word");
+        if(string==="letter"){
+            dash.classList.add("letter");
+        }
+        if(string==="space"){
+            dash.classList.add("spacer");
+        }
+        parentElem.appendChild(dash);
+        console.log("dashes generated");
+    }     
+    determineNextWord(array){
+        let nextWord;
+        if(this.gameStatus.currentWord===""){
+                    nextWord=wordArray[0]
+        }
+        if(!this.gameStatus.currentWord===""){
+            for(i=0; i=wordArray.length-1; i++){
+                 if(wordArray[i]===this.gameStatus.currentWord && i<array.length-1){
+                     nextWord=wordArray[i+1];
+                }
+                 if(wordArray[i]===this.gameStatus.currentWord && i===array.length-1){
+                     nextWord=wordArray[0];//logic to be improved 
+                }                
+            }
+        }
+        return nextWord;
+    }
+    displayPlaceholderDashes(string){
+        this.removeAllDashes();
+       let sentence= string.split(" ");
+       if(sentence.length>1){
+            for(i=0; i<sentence.length; i++){//letters
+                    let wordOfSentence=sentence[i];
+                    let dashes=wordOfSentence.split("");
+
+                    dashes.forEach(dash=>{
+                        this.createDash("letter");
+                    });
+
+                    if(i !==sentence.length-1){//spaces
+                        this.createDash("space");
+                    }
+            }
+   
+       }else{
+            for(i=0; i<sentence.length; i++){//letters
+                let wordOfSentence=sentence[i];
+                let dashes=wordOfSentence.split("");
+
+                dashes.forEach(dash=>{
+                this.createDash("letter");
+                });
+            }
+
+        }
+    }
+    loadNextWord(){
+        const wordCategory=this.gameStatus.currentWordCategory;
+        let wordArray;
+        let nextWord;
+        switch (wordCategory){
+            case "fruits":
+                wordArray=this.words.fruits;
+                nextWord=determineNextWord(wordArray);
+            break;
+             case "animals":
+                wordArray=this.words.animals;
+                nextWord=determineNextWord(wordArray);                
+                
+            break;
+             case "movies":
+                wordArray=this.words.movies;
+                nextWord=determineNextWord(wordArray);                
+                
+            break;
+            case "countries":
+                wordArray=this.words.countries;
+                nextWord=determineNextWord(wordArray);                
+                
+            break;    
+            default:
+                nextWord="HANGMAN"
+            break;                              
+        }
+        this.gameStatus.currentWord=nextWord;
+        this.displayPlaceholderDashes(this.gameStatus.currentWord);
+
+    }
+
     checkIfLetterOccupiesMultiplePositions(){
 
     }
     endGame(){
-
-    }
-
-    generatePlaceholderDashes(){
 
     }
     acceptLetter(){
@@ -266,6 +336,10 @@ class Game{
     }
 
     drawNextFigurePart(){
+
+    }
+
+    updateRemainingAttempts(){
 
     }
 
@@ -282,10 +356,28 @@ class Game{
     }
 }
 
+//-------ui --------//
+
 
 const figure = new HangmanFigure(svgContainer,SVG_NS);
 const messageController=new GameMessage(gameStatusMessage);
 const game=new Game(gameStatus,messageController,figure,wordCategories);
-game.startGame();
 
+wordCategoryButtons.forEach(button=>{
+    button.addEventListener("click",()=>{
+       // if(button.classList.contains("inactive") ||)return;
+        if(button.classList.contains("selected"))return;
+        if(button.classList.contains("inactive") && !game.gameStatus.currentWordCategory==="" && gameStatus.readyForNextWord=== true) return;
+ 
+        if(!button.classList.contains("selected") && !button.classList.contains("inactive")
+            && game.gameStatus.currentWordCategory==="" && gameStatus.readyForNextWord=== true){
+                    button.classList.add("selected");
+                    gameStatus.currentWordCategory=button.dataset.category;
+                    updateWordCategory(wordCategoryButtons);
+        }
+        });
+    
+});
+
+game.startGame();
 
