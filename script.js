@@ -254,7 +254,7 @@ class Game{
         if(!this.gameStatus.currentWord==="HANGMAN"){
             for(let i=0; i<wordArray.length; i++){
                  if(wordArray[i]===this.gameStatus.currentWord && i<array.length-1){
-                     nextWord=wordArray[i+1];
+                     nextWord=wordArray[i++];
                 }
                  if(wordArray[i]===this.gameStatus.currentWord && i===array.length-1){
                      nextWord=wordArray[0];//logic to be improved 
@@ -321,6 +321,7 @@ class Game{
                 nextWord="HANGMAN";
             break;                              
         }
+        //save current word,ten replace with next word
         this.gameStatus.currentWord=nextWord;
         this.displayPlaceholderDashes(this.gameStatus.currentWord);
 
@@ -375,6 +376,8 @@ wordCategoryButtons.forEach(button=>{
                     updateWordCategory(wordCategoryButtons);        
                     game.loadNextWord();
                     gameStatus.readyForNextWord=false;
+                    console.log(gameStatus.currentWordCategory)
+                    console.log(gameStatus.currentWord)
         }
 
 
