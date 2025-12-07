@@ -8,7 +8,7 @@ const remainingAttemptsElem = document.querySelector(".remainingAttempts-number"
 
 const gameStatus={
     remainingAttempts: 6,
-    currentWordCategory: "",
+    currentWordCategory: "default",
     currentWord: "",
     clickedLetters: [],
     currentClickedLetter: "",
@@ -194,7 +194,7 @@ class Game{
     resetGame() {
         // Restore all properties of gameStatus to their default values
         this.gameStatus.remainingAttempts = 6;
-        this.gameStatus.currentWordCategory = "";
+        this.gameStatus.currentWordCategory = "default";
         this.gameStatus.currentWord = "";
         this.gameStatus.clickedLetters = [];
         this.gameStatus.currentClickedLetter = "";
@@ -213,7 +213,7 @@ class Game{
 }
     startGame(){
         this.gameMessageController.startGameMessage();
-        this.loadNextWord();
+       // this.loadNextWord();
     }
     displayDefaultWord(){
 
@@ -246,13 +246,13 @@ class Game{
         parentElem.appendChild(dash);
         console.log("dashes generated");
     }     
-    determineNextWord(array){
+    determineNextWord(wordArray){
         let nextWord;
-        if(this.gameStatus.currentWord===""){
-                    nextWord=wordArray[0]
+        if(this.gameStatus.currentWord==="default"){
+                    nextWord="HANGMAN";
         }
-        if(!this.gameStatus.currentWord===""){
-            for(i=0; i=wordArray.length-1; i++){
+        if(!this.gameStatus.currentWord==="HANGMAN"){
+            for(let i=0; i<wordArray.length; i++){
                  if(wordArray[i]===this.gameStatus.currentWord && i<array.length-1){
                      nextWord=wordArray[i+1];
                 }
@@ -293,7 +293,7 @@ class Game{
             };
         }
     }
-    loadNextWord(){
+    loadNextWord(){//gets next word and calls dash display method
         const wordCategory=this.gameStatus.currentWordCategory;
         let wordArray;
         let nextWord;
@@ -318,7 +318,7 @@ class Game{
                 
             break;    
             default:
-                nextWord="HANGMAN"
+                nextWord="HANGMAN";
             break;                              
         }
         this.gameStatus.currentWord=nextWord;
@@ -362,24 +362,25 @@ class Game{
 const figure = new HangmanFigure(svgContainer,SVG_NS);
 const messageController=new GameMessage(gameStatusMessage);
 const game=new Game(gameStatus,messageController,figure,wordCategories);
-
+game.startGame();
 wordCategoryButtons.forEach(button=>{
     button.addEventListener("click",()=>{
-       // if(button.classList.contains("inactive") ||)return;
         if(button.classList.contains("selected"))return;
-        if(button.classList.contains("inactive") && !game.gameStatus.currentWordCategory==="" && gameStatus.readyForNextWord=== true) return;
+        if(button.classList.contains("inactive") && !game.gameStatus.currentWordCategory==="default" && gameStatus.readyForNextWord=== true) return;
  
         if(!button.classList.contains("selected") && !button.classList.contains("inactive")
-            && game.gameStatus.currentWordCategory==="" && gameStatus.readyForNextWord=== true){
+            && gameStatus.currentWordCategory==="default" && gameStatus.readyForNextWord=== true){
                     button.classList.add("selected");
                     gameStatus.currentWordCategory=button.dataset.category;
-                    updateWordCategory(wordCategoryButtons);
-        }else{
-            gameStatus.currentWordCategory="default"; 
+                    updateWordCategory(wordCategoryButtons);        
+                    game.loadNextWord();
+                    gameStatus.readyForNextWord=false;
         }
+
+
         });
     
 });
 
-game.startGame();
+
 
