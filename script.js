@@ -235,7 +235,7 @@ class Game{
         console.log("dashes removed");
     }
     createDash(string){
-        const dash=createElement("div");
+        const dash=document.createElement("div");
         const parentElem=document.querySelector(".word");
         if(string==="letter"){
             dash.classList.add("letter");
@@ -287,7 +287,7 @@ class Game{
        }else{
             let letters=string.split("");
             console.log(`single word:${letters}`,letters);
-            for(i=0; i<letters.length; i++){//letters
+            for(let i=0; i<letters.length; i++){//letters
                 this.createDash("letter");
                 console.log("letter dash created")  ;              
             };
