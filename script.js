@@ -264,8 +264,10 @@ class Game{
         return nextWord;
     }
     displayPlaceholderDashes(string){
+        console.log(string)
         this.removeAllDashes();
        let sentence= string.split(" ");
+       console.log(`words:${sentence}`)
        if(sentence.length>1){
             for(i=0; i<sentence.length; i++){//letters
                     let wordOfSentence=sentence[i];
@@ -273,23 +275,22 @@ class Game{
 
                     dashes.forEach(dash=>{
                         this.createDash("letter");
+                        console.log("letter dash created")
                     });
 
-                    if(i !==sentence.length-1){//spaces
+                    if( i!==sentence.length-1){//spaces
                         this.createDash("space");
+                        console.log("space dash created")
                     }
             }
    
        }else{
-            for(i=0; i<sentence.length; i++){//letters
-                let wordOfSentence=sentence[i];
-                let dashes=wordOfSentence.split("");
-
-                dashes.forEach(dash=>{
+            let letters=string.split("");
+            console.log(`single word:${letters}`,letters);
+            for(i=0; i<letters.length; i++){//letters
                 this.createDash("letter");
-                });
-            }
-
+                console.log("letter dash created")  ;              
+            };
         }
     }
     loadNextWord(){
@@ -358,7 +359,6 @@ class Game{
 
 //-------ui --------//
 
-
 const figure = new HangmanFigure(svgContainer,SVG_NS);
 const messageController=new GameMessage(gameStatusMessage);
 const game=new Game(gameStatus,messageController,figure,wordCategories);
@@ -374,6 +374,8 @@ wordCategoryButtons.forEach(button=>{
                     button.classList.add("selected");
                     gameStatus.currentWordCategory=button.dataset.category;
                     updateWordCategory(wordCategoryButtons);
+        }else{
+            gameStatus.currentWordCategory="default"; 
         }
         });
     
