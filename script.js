@@ -288,7 +288,7 @@ class Game{
     }
     loadNextWord(wordCategory){//gets next word and calls dash display method
         //const nextWord=this.determineNextWord(this.words.wordCategory);
-        console.log(this.words.wordCategory);
+        console.log(this.words[this.gameStatus.currentWordCategory]);
         //this.gameStatus.currentWord=nextWord;
         //this.displayPlaceholderDashes(nextWord);
 
@@ -348,8 +348,11 @@ function updateWordCategory(buttons,currentButton){
      
 }
 function switchWordCategories(button){
-    button.classList.remove("inactive");
     button.classList.add("switch");
+    wordCategoryButtons.forEach(button=>{
+        button.classList.remove("selected");
+        button.classList.remove("inactive");
+    });
      updateWordCategory(wordCategoryButtons,button);
  
 }
