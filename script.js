@@ -16,23 +16,10 @@ const gameStatus={
     currentLetterOccupiesMultiplePositions: false,
     gameOver: false,
     gameWon: false,
-    readyForNextWord: true,
     currentMessage: "",
     figurePartsDrawn: 0,
 
 };
-
-// Word Category Selection
-const wordCategoryButtons=document.querySelectorAll(".category-card");
-
-function updateWordCategory(buttons){
-    buttons.forEach(button=>{
-        if(!button.classList.contains("selected")){
-            button.classList.add("inactive");
-        }
-    }); 
-     
-}
 
 const wordCategories={
     animals: ['TIGER', 'ELEPHANT', 'GIRAFFE', 'CHIMPANZEE', 'RHINOCEROS', 
@@ -175,7 +162,6 @@ class Game{
         modal.style.display="none";
         const remainingAttemptsDisplay= document.querySelector(".remainingAttempts-number");
         remainingAttemptsDisplay.textContent= 6;
-
     }
 
     resetCategorySelection(){
@@ -196,13 +182,16 @@ class Game{
         this.gameStatus.remainingAttempts = 6;
         this.gameStatus.currentWordCategory = "default";
         this.gameStatus.currentWord = "";
+
+        //---------clicking letters----------//
         this.gameStatus.clickedLetters = [];
         this.gameStatus.currentClickedLetter = "";
         this.gameStatus.currentClickedLetterIsCorrect = false;
         this.gameStatus.currentLetterOccupiesMultiplePositions = false; 
+
+        //-----------game status--------------------//
         this.gameStatus.gameOver = false;
         this.gameStatus.gameWon = false; 
-        this.gameStatus.readyForNextWord = true;
         this.gameStatus.currentMessage = ""; 
         this.gameStatus.figurePartsDrawn = 0; 
 
@@ -248,18 +237,22 @@ class Game{
     }     
     determineNextWord(wordArray){
         let nextWord;
-        if(this.gameStatus.currentWord==="default"){
+        if(this.gameStatus.currentWordCategory==="default"){
                     nextWord="HANGMAN";
         }
-        if(!this.gameStatus.currentWord==="HANGMAN"){
+        if(this.gameStatus.currentWordCategory!=="default"){
             for(let i=0; i<wordArray.length; i++){
-                 if(wordArray[i]===this.gameStatus.currentWord && i<array.length-1){
+                 if(wordArray[i]===this.gameStatus.currentWord && i<wordArray.length-1){
                      nextWord=wordArray[i++];
                 }
-                 if(wordArray[i]===this.gameStatus.currentWord && i===array.length-1){
+                 if(wordArray[i]===this.gameStatus.currentWord && i===wordArray.length-1){
                      nextWord=wordArray[0];//logic to be improved 
-                }                
+                } 
+                             
             }
+             if(this.gameStatus.currentWord===""){
+                nextWord=wordArray[0];
+            }              
         }
         return nextWord;
     }
@@ -355,6 +348,19 @@ class Game{
 }
 
 //-------ui --------//
+// Word Category Selection
+const wordCategoryButtons=document.querySelectorAll(".category-card");
+
+function updateWordCategory(buttons){
+    buttons.forEach(button=>{
+        if(!button.classList.contains("selected")){
+            button.classList.add("inactive");
+        }
+    }); 
+    gameStatus.currentWord="";   
+    console.log("word category selected") ;
+     
+}
 
 const figure = new HangmanFigure(svgContainer,SVG_NS);
 const messageController=new GameMessage(gameStatusMessage);
@@ -363,16 +369,14 @@ game.startGame();
 wordCategoryButtons.forEach(button=>{
     button.addEventListener("click",()=>{
         if(button.classList.contains("selected"))return;
-        if(button.classList.contains("inactive") && !game.gameStatus.currentWordCategory==="default" && gameStatus.readyForNextWord=== true) return;
+        if(button.classList.contains("inactive") && game.gameStatus.currentWordCategory!=="default") return;
  
         if(!button.classList.contains("selected") && !button.classList.contains("inactive")
-            && gameStatus.currentWordCategory==="default" && gameStatus.readyForNextWord=== true){
+            && gameStatus.currentWordCategory==="default"){
                     button.classList.add("selected");
                     gameStatus.currentWordCategory=button.dataset.category;
                     updateWordCategory(wordCategoryButtons);   
-                    gameStatus.readyForNextWord=false;     
                     game.loadNextWord();
-
                     console.log(gameStatus.currentWordCategory);
                     console.log(gameStatus.currentWord);
 
