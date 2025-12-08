@@ -295,26 +295,21 @@ class Game{
     }
     loadNextWord(){//gets next word and calls dash display method
         const wordCategory=this.gameStatus.currentWordCategory;
-        let wordArray;
+        const wordArray=this.words;
         let nextWord;
         switch (wordCategory){
             case "fruits":
-                wordArray=this.words.fruits;
-                nextWord=determineNextWord(wordArray);
+                nextWord=this.determineNextWord(wordArray.fruits);
             break;
              case "animals":
-                wordArray=this.words.animals;
-                nextWord=determineNextWord(wordArray);                
-                
+                nextWord=this.determineNextWord(wordArray.animals);                          
             break;
              case "movies":
-                wordArray=this.words.movies;
-                nextWord=determineNextWord(wordArray);                
+                nextWord=this.determineNextWord(wordArray.movies);                
                 
             break;
             case "countries":
-                wordArray=this.words.countries;
-                nextWord=determineNextWord(wordArray);                
+                nextWord=this.determineNextWord(wordArray.countries);                
                 
             break;    
             default:
@@ -322,8 +317,9 @@ class Game{
             break;                              
         }
         //save current word,ten replace with next word
+        console.log(nextWord)
         this.gameStatus.currentWord=nextWord;
-        this.displayPlaceholderDashes(this.gameStatus.currentWord);
+        this.displayPlaceholderDashes(nextWord);
 
     }
 
@@ -373,11 +369,13 @@ wordCategoryButtons.forEach(button=>{
             && gameStatus.currentWordCategory==="default" && gameStatus.readyForNextWord=== true){
                     button.classList.add("selected");
                     gameStatus.currentWordCategory=button.dataset.category;
-                    updateWordCategory(wordCategoryButtons);        
+                    updateWordCategory(wordCategoryButtons);   
+                    gameStatus.readyForNextWord=false;     
                     game.loadNextWord();
-                    gameStatus.readyForNextWord=false;
-                    console.log(gameStatus.currentWordCategory)
-                    console.log(gameStatus.currentWord)
+
+                    console.log(gameStatus.currentWordCategory);
+                    console.log(gameStatus.currentWord);
+
         }
 
 
