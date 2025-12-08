@@ -235,7 +235,7 @@ class Game{
         if(string==="space"){
             dash.classList.add("spacer");
         }
-
+        dash.classList.add("dash");
         dash.dataset.index=totalPositionsCreated;
         parentElem.appendChild(dash);
     }     
@@ -299,9 +299,37 @@ class Game{
     endGame(){
 
     }
+    checkLetterPositions(letter){
+     const word=this.gameStatus.currentWord;
+        let letterPositions=word.split(" ");
+        let positions;
+        let letterIndexes=[];
+        if(letterPositions.length>1){//multi word sentence
+            letterPositions.forEach(position=>{
+                positions=position.split("");
+                positions.forEach(pos=>{
+                    if(letter===pos){
+                        letterIndexes.push(indexOf(pos));
+                    }
+                })
+            });
+        }else{
+             positions=letterPositions[0].split("");//single word
+             positions.forEach(pos=>{
+                if(letter===pos){
+                        letterIndexes.push(indexOf(pos));                        
+                    }
+                })
+        }
+        return letterIndexes;
+    }
     checkIfLetterIsCorrect(letter){
-        const word=this.gameStatus.currentWord;
-
+        const letterUsage=this.checkLetterPositions();
+        if(letterUsage.length>0){
+            return true
+        }else{
+            return false
+        }
     }
 
     drawNextFigurePart(){
@@ -310,30 +338,39 @@ class Game{
             case 0:
                 this.hangmanFigure.drawHead();
                 this.hangmanFigure.drawNeck();
+                 updateRemainingAttempts();
             break;
             case 1:
                 this.hangmanFigure.drawTorso();
+                 updateRemainingAttempts();
             break;
             case 2:
                 this.hangmanFigure.drawLeftHand();
+                 updateRemainingAttempts();
             break;
             case 3:
                 this.hangmanFigure.drawRightHand();
+                 updateRemainingAttempts();
             break;
             case 4:
                 this.hangmanFigure.drawRightLeg();
+                 updateRemainingAttempts();
             break;
             case 5:
                 this.hangmanFigure.drawLeftLeg();
+                 updateRemainingAttempts();
             break;
             default:
                 this.hangmanFigure.drawCompleteFigure();
+
             break;            
         }
     }
 
     updateRemainingAttempts(){
-
+        this.gameStatus.remainingAttempts--;
+        const attemptsDisplay=document.querySelector(".remainingAttempts-number");
+        attemptsDisplay.textContent=this.gameStatus.remainingAttempts;
     }
 
     rejectLetter(){
