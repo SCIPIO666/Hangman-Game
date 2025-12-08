@@ -286,33 +286,11 @@ class Game{
             };
         }
     }
-    loadNextWord(){//gets next word and calls dash display method
-        const wordCategory=this.gameStatus.currentWordCategory;
-        const wordArray=this.words;
-        let nextWord;
-        switch (wordCategory){
-            case "fruits":
-                nextWord=this.determineNextWord(wordArray.fruits);
-            break;
-             case "animals":
-                nextWord=this.determineNextWord(wordArray.animals);                          
-            break;
-             case "movies":
-                nextWord=this.determineNextWord(wordArray.movies);                
-                
-            break;
-            case "countries":
-                nextWord=this.determineNextWord(wordArray.countries);                
-                
-            break;    
-            default:
-                nextWord="HANGMAN";
-            break;                              
-        }
-        //save current word,ten replace with next word
-        console.log(nextWord)
-        this.gameStatus.currentWord=nextWord;
-        this.displayPlaceholderDashes(nextWord);
+    loadNextWord(wordCategory){//gets next word and calls dash display method
+        //const nextWord=this.determineNextWord(this.words.wordCategory);
+        console.log(this.words.wordCategory);
+        //this.gameStatus.currentWord=nextWord;
+        //this.displayPlaceholderDashes(nextWord);
 
     }
 
@@ -351,17 +329,30 @@ class Game{
 // Word Category Selection
 const wordCategoryButtons=document.querySelectorAll(".category-card");
 
-function updateWordCategory(buttons){
+function updateWordCategory(buttons,currentButton){
     buttons.forEach(button=>{
-        if(!button.classList.contains("selected")){
-            button.classList.add("inactive");
+             
+        if(button.classList.contains(button.dataset.category)){
+                button.classList.remove(button.dataset.category);
         }
-    }); 
-    gameStatus.currentWord="";   
+        button.classList.add("inactive");
+        if(button.classList.contains("switch")){
+            button.classList.remove("switch");
+             button.classList.remove("inactive");                   
+        }
+        });  
+    currentButton.classList.add("selected") ;    
+    currentButton.classList.add(currentButton.dataset.category);
+     gameStatus.currentWordCategory=currentButton.dataset.category;
     console.log("word category selected") ;
      
 }
-
+function switchWordCategories(button){
+    button.classList.remove("inactive");
+    button.classList.add("switch");
+     updateWordCategory(wordCategoryButtons,button);
+ 
+}
 const figure = new HangmanFigure(svgContainer,SVG_NS);
 const messageController=new GameMessage(gameStatusMessage);
 const game=new Game(gameStatus,messageController,figure,wordCategories);
@@ -369,20 +360,21 @@ game.startGame();
 wordCategoryButtons.forEach(button=>{
     button.addEventListener("click",()=>{
         if(button.classList.contains("selected"))return;
-        if(button.classList.contains("inactive") && game.gameStatus.currentWordCategory!=="default") return;
- 
-        if(!button.classList.contains("selected") && !button.classList.contains("inactive")
-            && gameStatus.currentWordCategory==="default"){
-                    button.classList.add("selected");
-                    gameStatus.currentWordCategory=button.dataset.category;
-                    updateWordCategory(wordCategoryButtons);   
-                    game.loadNextWord();
-                    console.log(gameStatus.currentWordCategory);
-                    console.log(gameStatus.currentWord);
 
+      if(button.classList.contains("inactive")){
+            switchWordCategories(button); 
+                    game.loadNextWord(gameStatus.currentWordCategory);
+       
         }
 
+        if(!button.classList.contains("selected") && !button.classList.contains("inactive")
+            && gameStatus.currentWordCategory==="default"){
+                    updateWordCategory(wordCategoryButtons,button);   
+                    game.loadNextWord(gameStatus.currentWordCategory);
 
+        }
+                    console.log(gameStatus.currentWordCategory);
+                    console.log(gameStatus.currentWord);
         });
     
 });

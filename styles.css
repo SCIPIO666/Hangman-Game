@@ -133,13 +133,13 @@ width: 100%;
     border-radius: 4px;
 }
 .inactive {
-    background-color: #ccc;     
+    background-color: grey;     
     color: white;
-    cursor: not-allowed ;
+    cursor: pointer;
     padding: 10px 15px;
     border: none;
     border-radius: 4px;
-    pointer-events: none;
+    pointer-events: all;
 
 }
 .game-status {
