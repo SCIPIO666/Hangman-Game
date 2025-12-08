@@ -226,14 +226,18 @@ class Game{
     createDash(string){
         const dash=document.createElement("div");
         const parentElem=document.querySelector(".word");
+        const dashes=document.querySelectorAll(".letter");
+        const spaces=document.querySelectorAll(".spacer");
+        const totalPositionsCreated=dashes.length+spaces.length;
         if(string==="letter"){
             dash.classList.add("letter");
         }
         if(string==="space"){
             dash.classList.add("spacer");
         }
+
+        dash.dataset.index=totalPositionsCreated;
         parentElem.appendChild(dash);
-        console.log("dashes generated");
     }     
     determineNextWord(wordArray){
         let nextWord;
@@ -257,10 +261,8 @@ class Game{
         return nextWord;
     }
     displayPlaceholderDashes(string){
-        console.log(string)
         this.removeAllDashes();
        let sentence= string.split(" ");
-       console.log(`words:${sentence}`)
        if(sentence.length>1){
             for(i=0; i<sentence.length; i++){//letters
                     let wordOfSentence=sentence[i];
@@ -268,7 +270,6 @@ class Game{
 
                     dashes.forEach(dash=>{
                         this.createDash("letter");
-                        console.log("letter dash created")
                     });
 
                     if( i!==sentence.length-1){//spaces
@@ -281,16 +282,14 @@ class Game{
             let letters=string.split("");
             console.log(`single word:${letters}`,letters);
             for(let i=0; i<letters.length; i++){//letters
-                this.createDash("letter");
-                console.log("letter dash created")  ;              
+                this.createDash("letter");         
             };
         }
     }
     loadNextWord(wordCategory){//gets next word and calls dash display method
-        //const nextWord=this.determineNextWord(this.words.wordCategory);
-        console.log(this.words[this.gameStatus.currentWordCategory]);
-        //this.gameStatus.currentWord=nextWord;
-        //this.displayPlaceholderDashes(nextWord);
+        const nextWord=this.determineNextWord(this.words[this.gameStatus.currentWordCategory]);
+        this.gameStatus.currentWord=nextWord;
+        this.displayPlaceholderDashes(this.gameStatus.currentWord);
 
     }
 
@@ -300,12 +299,37 @@ class Game{
     endGame(){
 
     }
-    acceptLetter(){
+    checkIfLetterIsCorrect(letter){
+        const word=this.gameStatus.currentWord;
 
     }
 
     drawNextFigurePart(){
-
+        const figurePartsDrawn=this.gameStatus.figurePartsDrawn;
+        switch (figurePartsDrawn){
+            case 0:
+                this.hangmanFigure.drawHead();
+                this.hangmanFigure.drawNeck();
+            break;
+            case 1:
+                this.hangmanFigure.drawTorso();
+            break;
+            case 2:
+                this.hangmanFigure.drawLeftHand();
+            break;
+            case 3:
+                this.hangmanFigure.drawRightHand();
+            break;
+            case 4:
+                this.hangmanFigure.drawRightLeg();
+            break;
+            case 5:
+                this.hangmanFigure.drawLeftLeg();
+            break;
+            default:
+                this.hangmanFigure.drawCompleteFigure();
+            break;            
+        }
     }
 
     updateRemainingAttempts(){
@@ -382,5 +406,11 @@ wordCategoryButtons.forEach(button=>{
     
 });
 
-
-
+//-------letter clicking in guessing right word-----//
+const keys=document.querySelectorAll(".key");
+keys.forEach(key=>{
+    key.addEventListener("click",e=>{
+        game.drawNextFigurePart();
+        game.checkIfLetterIsCorrect()
+    });
+})
