@@ -10,7 +10,8 @@ const gameStatus={
     remainingAttempts: 6,
     currentWordCategory: "default",
     currentWord: "",
-
+    wronglyPlayedLetters: [],
+    correctlyPlayedLetters: [],
     currentClickedLetter: "",
     currentClickedLetterIsCorrect: false,
     gameOver: false,
@@ -197,9 +198,6 @@ class Game{
         this.gameMessageController.startGameMessage();
        // this.loadNextWord();
     }
-    displayDefaultWord(){
-
-    }
     removeAllDashes(){
         const dashes=document.querySelectorAll(".letter");
         const spaces=document.querySelectorAll(".spacer");
@@ -231,7 +229,19 @@ class Game{
         dash.classList.add("dash");
         dash.dataset.index=totalPositionsCreated;
         parentElem.appendChild(dash);
-    }     
+    }  
+     displayPlaceholderDashes(string){
+        this.removeAllDashes();
+        const word = this.gameStatus.currentWord;
+        word.split("").forEach((char, index) => {
+        if(char===" "){
+            this.createDash("spacer");
+        }else{
+            this.createDash("letter");
+        }
+        });
+
+    }   
     determineNextWord(wordArray){
         let nextWord;
         if(this.gameStatus.currentWordCategory==="default"){
@@ -253,25 +263,11 @@ class Game{
         }
         return nextWord;
     }
-    displayPlaceholderDashes(string){
-        this.removeAllDashes();
-        const word = this.gameStatus.currentWord;
-        word.split("").forEach((char, index) => {
-        if(char===" "){
-            this.createDash("spacer");
-        }else{
-            this.createDash("letter");
-        }
-        });
 
-    }
     loadNextWord(wordCategory){//gets next word and calls dash display method
         const nextWord=this.determineNextWord(this.words[this.gameStatus.currentWordCategory]);
         this.gameStatus.currentWord=nextWord;
         this.displayPlaceholderDashes(this.gameStatus.currentWord);
-
-    }
-    endGame(){
 
     }
   checkLetterPositions(letter) {
@@ -295,16 +291,21 @@ class Game{
         }
     }
     fillLetterDashes(letter){
-             const letterUsage=this.checkLetterPositions(letter); 
-             const letterElements=document.querySelectorAll(".letter");
-             letterElements.forEach(letterElem=>{
-                    for (let i=0; i<letterUsage.length; i++){
-                        if(parseFloat(letterElem.dataset.index)===letterUsage[i]){
-                            letterElem.textContent=letter.toUpperCase();
-                        }
-                    }
-             });
-    }    
+            const proceed=this.checkIfLetterIsCorrect(letter);
+            if(proceed){
+                    const letterUsage=this.checkLetterPositions(letter); 
+                    const letterElements=document.querySelectorAll(".letter");
+                    letterElements.forEach(letterElem=>{
+                            for (let i=0; i<letterUsage.length; i++){
+                                if(parseFloat(letterElem.dataset.index)===letterUsage[i]){
+                                    letterElem.textContent=letter.toUpperCase();
+                                }
+                            }
+                    });
+                }
+
+    }
+  
     draw(){
         const figurePartsDrawn=this.gameStatus.figurePartsDrawn;
         switch (figurePartsDrawn){
@@ -326,33 +327,64 @@ class Game{
             break;
             case 5:
                 this.hangmanFigure.drawLeftLeg();
+                this.endGame();
             break;
             default:
                 this.hangmanFigure.drawCompleteFigure();
 
             break;            
         }
-
-        this.messageController.display("Wrong Letter Selected! Try again")
-
+        this.gameStatus.figurePartsDrawn= parseFloat(this.gameStatus.figurePartsDrawn)+ 1;
     }
-    evaluateRemainingLetters(){
-
-    }
-    drawNextFigurePart(letter){
-        this.checkIfLetterIsCorrect(letter) ? this.evaluateRemainingLetters : this.draw;
-
-    }
-    rejectLetter(){
-
+    updateRemainingAttempts(letter){
+        if(this.checkIfLetterIsCorrect(letter))return;
+        if(this.gameStatus.remainingAttempts>0){
+            this.gameStatus.remainingAttempts=parseFloat(this.gameStatus.remainingAttempts)-1;
+        }
+        const attemptsDisplay=document.querySelector(".remainingAttempts-number");
+        attemptsDisplay.textContent=gameStatus.remainingAttempts;
     }
 
-    fillWord(){
-
+    updateGameStatus(letter){
+         if(this.checkIfLetterIsCorrect(letter)){
+            if(this.gameStatus.correctlyPlayedLetters.includes(letter))return;
+            this.fillLetterDashes(letter) ;
+            this.gameStatus.correctlyPlayedLetters.push(letter);
+        }else{
+            this.gameStatus.wronglyPlayedLetters.push(letter);
+            this.draw();
+        }
+        this. updateRemainingAttempts(letter);
+        this.loadNextRound();
     }
-    
-    updateRemainingAttempts(){
 
+    loadNextRound(){
+        const correctlyPlayedLetters=this.gameStatus.correctlyPlayedLetters;
+        const wronglyPlayedLetters=this.gameStatus.wronglyPlayedLetters;
+        const totalPlayedLetters=correctlyPlayedLetters+wronglyPlayedLetters;
+        const currentWord=this.gameStatus.currentWord;
+        if(correctlyPlayedLetters.length===currentWord.length){
+            this.gameStatus.gameOver=true;
+            this.gameStatus.gameWon=true;
+            this.endGame();
+        }else if(correctlyPlayedLetters.length!==currentWord.length && totalPlayedLetters>5){
+            this.gameStatus.gameOver=true;
+            this.gameStatus.gameWon=false;
+            this.endGame();    
+        }else{
+            loadNextWord(this.gameStatus.currentWordCategory);
+        }
+    }
+
+    endGame(){
+        const modal=document.querySelector(".notification-modal");
+        const message=document.querySelector(".notification-message");
+        if(this.gameStatus.gameWon===true){
+            message.textContent="YOU WIN";
+        }else{
+            message.textContent="YOU LOOSE";
+        }
+        modal.classList.add("show")
     }
 }
 
@@ -415,23 +447,21 @@ wordCategoryButtons.forEach(button=>{
 });
 
 //-------letter clicking in guessing right word-----//
-function updateRemainingAttempts(){
-    if(gameStatus.remainingAttempts>0){
-        gameStatus.remainingAttempts--;
-    }
+// function updateRemainingAttempts(){
+//     if(gameStatus.remainingAttempts>0){
+//         gameStatus.remainingAttempts--;
+//     }
 
-        const attemptsDisplay=document.querySelector(".remainingAttempts-number");
-        attemptsDisplay.textContent=gameStatus.remainingAttempts;
-}
-function updatePartsDrawn(){
-    gameStatus.figurePartsDrawn++;
-}
+//         const attemptsDisplay=document.querySelector(".remainingAttempts-number");
+//         attemptsDisplay.textContent=gameStatus.remainingAttempts;
+// }
+
 const keys=document.querySelectorAll(".key");
 keys.forEach(key=>{
     key.addEventListener("click",e=>{
-        game.fillLetterDashes(e.target.textContent);
-        //updateRemainingAttempts();
-       // game.checkIfLetterIsCorrect()
+        game.updateGameStatus(e.target.textContent);
+        console.log(game.checkIfLetterIsCorrect(e.target.textContent));
+
     });
 })
 
