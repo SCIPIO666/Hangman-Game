@@ -10,10 +10,9 @@ const gameStatus={
     remainingAttempts: 6,
     currentWordCategory: "default",
     currentWord: "",
-    clickedLetters: [],
+
     currentClickedLetter: "",
     currentClickedLetterIsCorrect: false,
-    currentLetterOccupiesMultiplePositions: false,
     gameOver: false,
     gameWon: false,
     currentMessage: "",
@@ -262,29 +261,15 @@ class Game{
     }
     displayPlaceholderDashes(string){
         this.removeAllDashes();
-       let sentence= string.split(" ");
-       if(sentence.length>1){
-            for(i=0; i<sentence.length; i++){//letters
-                    let wordOfSentence=sentence[i];
-                    let dashes=wordOfSentence.split("");
-
-                    dashes.forEach(dash=>{
-                        this.createDash("letter");
-                    });
-
-                    if( i!==sentence.length-1){//spaces
-                        this.createDash("space");
-                        console.log("space dash created")
-                    }
-            }
-   
-       }else{
-            let letters=string.split("");
-            console.log(`single word:${letters}`,letters);
-            for(let i=0; i<letters.length; i++){//letters
-                this.createDash("letter");         
-            };
+        const word = this.gameStatus.currentWord;
+        word.split("").forEach((char, index) => {
+        if(char===" "){
+            this.createDash("spacer");
+        }else{
+            this.createDash("letter");
         }
+        });
+
     }
     loadNextWord(wordCategory){//gets next word and calls dash display method
         const nextWord=this.determineNextWord(this.words[this.gameStatus.currentWordCategory]);
@@ -292,45 +277,40 @@ class Game{
         this.displayPlaceholderDashes(this.gameStatus.currentWord);
 
     }
-
-    checkIfLetterOccupiesMultiplePositions(){
-
-    }
     endGame(){
 
     }
-    checkLetterPositions(letter){
-     const word=this.gameStatus.currentWord;
-        let letterPositions=word.split(" ");
-        let positions;
-        let letterIndexes=[];
-        if(letterPositions.length>1){//multi word sentence
-            letterPositions.forEach(position=>{
-                positions=position.split("");
-                positions.forEach(pos=>{
-                    if(letter===pos){
-                        letterIndexes.push(indexOf(pos));
-                    }
-                })
-            });
-        }else{
-             positions=letterPositions[0].split("");//single word
-             positions.forEach(pos=>{
-                if(letter===pos){
-                        letterIndexes.push(indexOf(pos));                        
-                    }
-                })
+  checkLetterPositions(letter) {
+    const word = this.gameStatus.currentWord;
+    let letterIndexes = [];
+    word.split("").forEach((char, index) => {
+        if (letter === char) {
+            letterIndexes.push(index); 
         }
-        return letterIndexes;
-    }
+    });
+
+    return letterIndexes;
+}
+    
     checkIfLetterIsCorrect(letter){
-        const letterUsage=this.checkLetterPositions();
+        const letterUsage=this.checkLetterPositions(letter);
         if(letterUsage.length>0){
-            return true
+            return true;
         }else{
-            return false
+            return false;
         }
     }
+    fillLetterDashes(letter){
+             const letterUsage=this.checkLetterPositions(letter); 
+             const letterElements=document.querySelectorAll(".letter");
+             letterElements.forEach(letterElem=>{
+                    for (let i=0; i<letterUsage.length; i++){
+                        if(parseFloat(letterElem.dataset.index)===letterUsage[i]){
+                            letterElem.textContent=letter.toUpperCase();
+                        }
+                    }
+             });
+    }    
 
     drawNextFigurePart(){
         const figurePartsDrawn=this.gameStatus.figurePartsDrawn;
@@ -338,27 +318,21 @@ class Game{
             case 0:
                 this.hangmanFigure.drawHead();
                 this.hangmanFigure.drawNeck();
-                 updateRemainingAttempts();
             break;
             case 1:
                 this.hangmanFigure.drawTorso();
-                 updateRemainingAttempts();
             break;
             case 2:
                 this.hangmanFigure.drawLeftHand();
-                 updateRemainingAttempts();
             break;
             case 3:
                 this.hangmanFigure.drawRightHand();
-                 updateRemainingAttempts();
             break;
             case 4:
                 this.hangmanFigure.drawRightLeg();
-                 updateRemainingAttempts();
             break;
             case 5:
                 this.hangmanFigure.drawLeftLeg();
-                 updateRemainingAttempts();
             break;
             default:
                 this.hangmanFigure.drawCompleteFigure();
@@ -366,13 +340,6 @@ class Game{
             break;            
         }
     }
-
-    updateRemainingAttempts(){
-        this.gameStatus.remainingAttempts--;
-        const attemptsDisplay=document.querySelector(".remainingAttempts-number");
-        attemptsDisplay.textContent=this.gameStatus.remainingAttempts;
-    }
-
     rejectLetter(){
 
     }
@@ -445,11 +412,23 @@ wordCategoryButtons.forEach(button=>{
 });
 
 //-------letter clicking in guessing right word-----//
+function updateRemainingAttempts(){
+    if(gameStatus.remainingAttempts>0){
+        gameStatus.remainingAttempts--;
+    }
+
+        const attemptsDisplay=document.querySelector(".remainingAttempts-number");
+        attemptsDisplay.textContent=gameStatus.remainingAttempts;
+}
+function updatePartsDrawn(){
+    gameStatus.figurePartsDrawn++;
+}
 const keys=document.querySelectorAll(".key");
 keys.forEach(key=>{
     key.addEventListener("click",e=>{
-        game.drawNextFigurePart();
-        game.checkIfLetterIsCorrect()
+        game.fillLetterDashes(e.target.textContent);
+        //updateRemainingAttempts();
+       // game.checkIfLetterIsCorrect()
     });
 })
 
