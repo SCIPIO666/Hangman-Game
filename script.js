@@ -21,16 +21,37 @@ const gameStatus={
 
 };
 
-const wordCategories={
-    animals: ['TIGER', 'ELEPHANT', 'GIRAFFE', 'CHIMPANZEE', 'RHINOCEROS', 
-        'ZEBRA', 'PENGUIN', 'DOLPHIN', 'KANGAROO', 'SQUIRREL'],
-    fruits:[ 'APPLE', 'BANANA', 'ORANGE', 'GRAPEFRUIT', 'PINEAPPLE',
-         'WATERMELON', 'MANGO', 'STRAWBERRY', 'KIWI', 'BLUEBERRY'],
-    countries: ['CANADA', 'BRAZIL', 'GERMANY', 'AUSTRALIA', 'JAPAN',
-         'EGYPT', 'MEXICO', 'ITALY', 'INDIA', 'RUSSIA'],
-    movies: ['TITANIC', 'INCEPTION', 'AVATAR', 'PARASITE', 'JAWS', 
-        'GLADIATOR', 'PULP FICTION', 'INTERSTELLAR', 'FROZEN', 'MEMENTO'],
-}
+const wordCategories = {
+    animals: [
+        'TIGER', 'ELEPHANT', 'GIRAFFE', 'CHIMPANZEE', 'RHINOCEROS',
+        'ZEBRA', 'PENGUIN', 'DOLPHIN', 'KANGAROO', 'SQUIRREL',
+        'HIPPOPOTAMUS', 'OSTRICH', 'LION', 'CAMEL', 'CROCODILE',
+        'WOLF', 'FOX', 'BEAR', 'SEAGULL', 'RACCOON'
+    ],
+    fruits: [
+        'APPLE', 'BANANA', 'ORANGE', 'GRAPEFRUIT', 'PINEAPPLE',
+        'WATERMELON', 'MANGO', 'STRAWBERRY', 'KIWI', 'BLUEBERRY',
+        'CHERRY', 'PEAR', 'PLUM', 'APRICOT', 'RASPBERRY',
+        'LEMON', 'LIME', 'AVOCADO', 'COCONUT', 'GRAPE'
+    ],
+    countries: [
+        'CANADA', 'BRAZIL', 'GERMANY', 'AUSTRALIA', 'JAPAN',
+        'EGYPT', 'MEXICO', 'ITALY', 'INDIA', 'RUSSIA',
+        'CHINA', 'FRANCE', 'SPAIN', 'NIGERIA', 'KENYA',
+        'CHILE', 'PERU', 'SWEDEN', 'GREECE', 'VIETNAM'
+    ],
+    movies: [
+        'TITANIC', 'INCEPTION', 'AVATAR', 'PARASITE', 'JAWS',
+        'GLADIATOR', 'PULP FICTION', 'INTERSTELLAR', 'FROZEN', 'MEMENTO',
+        'ALIEN', 'PSYCHO', 'MAD MAX', 'ROCKY',
+        'CASABLANCA', 'GODFATHER', 'AMELIE', 'MATRIX', 'DUNE'
+    ],
+    sports: [
+        'FOOTBALL', 'BASKETBALL', 'BASEBALL', 'SOCCER', 'TENNIS',
+        'VOLLEYBALL', 'SWIMMING', 'CRICKET', 'BOXING', 'GOLF',
+        'HOCKEY', 'RUGBY', 'SAILING', 'FENCING', 'CYCLING'
+    ]
+};
 
 class HangmanFigure{
     constructor(parentElem, nameSpace){
