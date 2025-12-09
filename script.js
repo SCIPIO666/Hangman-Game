@@ -181,13 +181,7 @@ class Game{
         this.gameStatus.remainingAttempts = 6;
         this.gameStatus.currentWordCategory = "default";
         this.gameStatus.currentWord = "";
-
-        //---------clicking letters----------//
-        this.gameStatus.clickedLetters = [];
-        this.gameStatus.currentClickedLetter = "";
         this.gameStatus.currentClickedLetterIsCorrect = false;
-        this.gameStatus.currentLetterOccupiesMultiplePositions = false; 
-
         //-----------game status--------------------//
         this.gameStatus.gameOver = false;
         this.gameStatus.gameWon = false; 
@@ -311,8 +305,7 @@ class Game{
                     }
              });
     }    
-
-    drawNextFigurePart(){
+    draw(){
         const figurePartsDrawn=this.gameStatus.figurePartsDrawn;
         switch (figurePartsDrawn){
             case 0:
@@ -339,6 +332,16 @@ class Game{
 
             break;            
         }
+
+        this.messageController.display("Wrong Letter Selected! Try again")
+
+    }
+    evaluateRemainingLetters(){
+
+    }
+    drawNextFigurePart(letter){
+        this.checkIfLetterIsCorrect(letter) ? this.evaluateRemainingLetters : this.draw;
+
     }
     rejectLetter(){
 
