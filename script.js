@@ -265,22 +265,13 @@ class Game{
     }   
     determineNextWord(wordArray){
         let nextWord;
+        let nextWordIndex;
         if(this.gameStatus.currentWordCategory==="default"){
-                    nextWord="HANGMAN";
+                    nextWord="HANGMAN";//to be improved
         }
         if(this.gameStatus.currentWordCategory!=="default"){
-            for(let i=0; i<wordArray.length; i++){
-                 if(wordArray[i]===this.gameStatus.currentWord && i<wordArray.length-1){
-                     nextWord=wordArray[i++];
-                }
-                 if(wordArray[i]===this.gameStatus.currentWord && i===wordArray.length-1){
-                     nextWord=wordArray[0];//logic to be improved 
-                } 
-                             
-            }
-             if(this.gameStatus.currentWord===""){
-                nextWord=wordArray[0];
-            }              
+        nextWordIndex=Math.floor(Math.random() * ((wordArray.length-1) - 0 + 1)) + 0;
+           nextWord=wordArray[nextWordIndex];
         }
         return nextWord;
     }
