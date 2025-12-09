@@ -420,6 +420,7 @@ function switchWordCategories(button){
 const figure = new HangmanFigure(svgContainer,SVG_NS);
 const messageController=new GameMessage(gameStatusMessage);
 const game=new Game(gameStatus,messageController,figure,wordCategories);
+
 game.startGame();
 wordCategoryButtons.forEach(button=>{
     button.addEventListener("click",()=>{
@@ -451,3 +452,4 @@ keys.forEach(key=>{
         game.checkIfLetterIsCorrect()
     });
 })
+
