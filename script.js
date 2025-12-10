@@ -10,10 +10,7 @@ const gameStatus={
     remainingAttempts: 6,
     currentWordCategory: "default",
     currentWord: "",
-    wronglyPlayedLetters: [],
-    correctlyPlayedLetters: [],
     currentClickedLetter: "",
-    currentClickedLetterIsCorrect: false,
     gameOver: false,
     gameWon: false,
     currentMessage: "",
@@ -146,7 +143,7 @@ class HangmanFigure{
 class GameMessage{
     constructor(messageElem){
         this.messageElem = messageElem;
-        this.gameStatus = gameStatus;
+
     }
 
     displayMessage(message){
@@ -157,8 +154,14 @@ class GameMessage{
     startGameMessage(){
         this.messageElem.textContent = "Select Word Category To Start Playing";
         this.animateMessage();
-    }
 
+    }
+    completeTheSecretWordMessage(){
+        this.messageElem.classList.add("hide"); 
+        this.messageElem.textContent="Complete The Secret Word";
+        this.messageElem.classList.add("slide-in-out");
+
+    }
     animateMessage(){
         this.messageElem.classList.remove("hide");
         this.messageElem.classList.remove("slide-in-out");
@@ -198,26 +201,24 @@ class Game{
     }
 
    
-    resetGame() {
+    restartGame() {
         // Restore all properties of gameStatus to their default values
         this.gameStatus.remainingAttempts = 6;
         this.gameStatus.currentWordCategory = "default";
         this.gameStatus.currentWord = "";
-        this.gameStatus.currentClickedLetterIsCorrect = false;
-        //-----------game status--------------------//
         this.gameStatus.gameOver = false;
         this.gameStatus.gameWon = false; 
         this.gameStatus.currentMessage = ""; 
         this.gameStatus.figurePartsDrawn = 0; 
-
         this.hangmanFigure.resetFigure();
         this.gameMessageController.startGameMessage();
         this. resetCategorySelection();
         this.restoreDefaults();
+        this.startGame();
 }
     startGame(){
         this.gameMessageController.startGameMessage();
-       // this.loadNextWord();
+       this.loadNextWord(this.gameStatus.currentWordCategory);
     }
     removeAllDashes(){
         const dashes=document.querySelectorAll(".letter");
@@ -359,32 +360,36 @@ class Game{
 
     updateGameStatus(letter){
          if(this.checkIfLetterIsCorrect(letter)){
-            if(this.gameStatus.correctlyPlayedLetters.includes(letter))return;
             this.fillLetterDashes(letter) ;
-            this.gameStatus.correctlyPlayedLetters.push(letter);
         }else{
-            this.gameStatus.wronglyPlayedLetters.push(letter);
             this.draw();
         }
         this. updateRemainingAttempts(letter);
         this.loadNextRound();
     }
-
+    determineRemainingLetters(){
+         const allFilledLetters=document.querySelectorAll(".letter");
+         const remainingLetters=[];
+         allFilledLetters.forEach(letter=>{
+                if(letter.textContent===""){
+                    remainingLetters.push(letter.dataset.index);
+                }
+         });
+         return remainingLetters;
+    }
     loadNextRound(){
-        const correctlyPlayedLetters=this.gameStatus.correctlyPlayedLetters;
-        const wronglyPlayedLetters=this.gameStatus.wronglyPlayedLetters;
-        const totalPlayedLetters=correctlyPlayedLetters+wronglyPlayedLetters;
-        const currentWord=this.gameStatus.currentWord;
-        if(correctlyPlayedLetters.length===currentWord.length){
+        const remainingAttempts=parseFloat(this.gameStatus.remainingAttempts);
+         const remainingLetters=this.determineRemainingLetters();
+        if(remainingLetters.length===0){
             this.gameStatus.gameOver=true;
             this.gameStatus.gameWon=true;
             this.endGame();
-        }else if(correctlyPlayedLetters.length!==currentWord.length && totalPlayedLetters>5){
+        }else if(remainingLetters.length>0 && remainingAttempts===0){
             this.gameStatus.gameOver=true;
             this.gameStatus.gameWon=false;
             this.endGame();    
         }else{
-            loadNextWord(this.gameStatus.currentWordCategory);
+            return;
         }
     }
 
@@ -396,7 +401,19 @@ class Game{
         }else{
             message.textContent="YOU LOOSE";
         }
-        modal.classList.add("show")
+        modal.classList.remove("hide");
+        modal.classList.add("show");
+    }
+    resetGame(){
+        const remaining=document.querySelector(".remainingAttempts-number")
+        remaining.textContent=6;
+        this.gameStatus.remainingAttempts = 6;
+        this.gameStatus.gameOver = false;
+        this.gameStatus.gameWon = false; 
+        this.gameStatus.figurePartsDrawn = 0; 
+        this.hangmanFigure.resetFigure();
+        this.loadNextWord(this.gameStatus.currentWordCategory);
+
     }
 }
 
@@ -431,8 +448,9 @@ function switchWordCategories(button){
      updateWordCategory(wordCategoryButtons,button);
  
 }
+const messageElem=document.querySelector("#message-element");
 const figure = new HangmanFigure(svgContainer,SVG_NS);
-const messageController=new GameMessage(gameStatusMessage);
+const messageController=new GameMessage(messageElem);
 const game=new Game(gameStatus,messageController,figure,wordCategories);
 
 game.startGame();
@@ -452,28 +470,27 @@ wordCategoryButtons.forEach(button=>{
                     game.loadNextWord(gameStatus.currentWordCategory);
 
         }
-                    console.log(gameStatus.currentWordCategory);
-                    console.log(gameStatus.currentWord);
-        });
+    });
     
 });
-
-//-------letter clicking in guessing right word-----//
-// function updateRemainingAttempts(){
-//     if(gameStatus.remainingAttempts>0){
-//         gameStatus.remainingAttempts--;
-//     }
-
-//         const attemptsDisplay=document.querySelector(".remainingAttempts-number");
-//         attemptsDisplay.textContent=gameStatus.remainingAttempts;
-// }
 
 const keys=document.querySelectorAll(".key");
 keys.forEach(key=>{
     key.addEventListener("click",e=>{
         game.updateGameStatus(e.target.textContent);
-        console.log(game.checkIfLetterIsCorrect(e.target.textContent));
-
     });
-})
+});
+
+//--------------------modal..........//
+
+const modal=document.querySelector(".notification-modal");
+const modalButtons=document.querySelectorAll(".close");
+    modalButtons.forEach(button=>{
+        button.addEventListener("click",e=>{
+            modal.classList.remove("show");
+            modal.classList.add("hide"); 
+            game.resetGame();
+            messageController.completeTheSecretWordMessage();
+        });
+});
 
