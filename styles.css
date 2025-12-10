@@ -14,7 +14,7 @@ html {
 
 
 h1 {
-    font-size: 2.5rem; /* 2.5 * 16px = 40px */
+    font-size: 2rem; /* 2.5 * 16px = 40px */
     margin-bottom: 0.5em; /* Relative to H1's font size */
 }
 
@@ -38,7 +38,7 @@ line-height: 1.5;
 }
 .container {
     width: 80vw;
-height: 80vh;
+height: 90vh;
 margin: 1em auto;
 background-color: #fff;
 padding: 10px;
@@ -63,9 +63,10 @@ width: 100%;
 .categories,.game-status {
     width: 100%;
     display: flex;
+    height: 12%;
     justify-content: center;
-    margin-bottom: 20px;
-    gap: 10px;
+    margin-bottom: 5px;
+    gap: 5px;
 }
 .category-card h2 {
     margin: 0;
@@ -145,7 +146,7 @@ width: 100%;
 .game-status {
     justify-content: center;
     width: 100%;
-    margin: 5px auto;
+    margin: 0 auto;
 
 }
 
